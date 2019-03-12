@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +26,7 @@ public class Registro extends JFrame {
 	private JLabel lblNewLabel, lblNewLabel_1, lblNewLabel_2, lblNewLabel_3;
 	private JButton registrarse;
 	private Persona persona;
+	private List<Object[]> lista_de_cosas;
 
 	public Registro() {
 
@@ -68,7 +70,7 @@ public class Registro extends JFrame {
 		contentPane.add(lblNewLabel_3);
 
 		registrarse = new JButton("Registrarse");
-		registrarse.setBounds(319, 214, 89, 23);
+		registrarse.setBounds(301, 207, 105, 30);
 		contentPane.add(registrarse);
 
 		setVisible(true);
@@ -81,18 +83,28 @@ public class Registro extends JFrame {
 				persona = new Persona(textField.getText().trim(), textField_1.getText().trim(),
 						textField_2.getText().trim());
 
+				String consulta = "select p.email,p.nick from Persona p ";
+				consulta += "where p.email=" + "'" + persona.getEmail() + "'" + "and p.nick=" + "'" + persona.getNick()
+						+ "'";
+
+				lista_de_cosas = Consulta.consultar(consulta);
+
 				if (verificarEmail(persona.getEmail()) == true) {
 
-					if (persona.getEmail().equals("") || persona.getContraseña().equals("") || persona.equals(""))
+					if (persona.getEmail().equals("") || persona.getContraseña().equals("")
+							|| persona.getNick().equals(""))
 						JOptionPane.showMessageDialog(null, "llene todo los campos", "campos vacios",
 								JOptionPane.WARNING_MESSAGE);
-					else {
-						if(Consulta.insertar(persona)==true) {
-						Login login = new Login();
-						setVisible(false);
-						}
-						else
-							JOptionPane.showMessageDialog(null,"este email ya se ha registrado","usuario ya registrado",JOptionPane.ERROR_MESSAGE);
+					if (lista_de_cosas.size() != 0) {
+						JOptionPane.showMessageDialog(null, "usuario ya existente", "usuario existente",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						if (Consulta.insertar(persona) == true) {
+							Login login = new Login();
+							setVisible(false);
+						} else
+							JOptionPane.showMessageDialog(null, "este email ya se ha registrado",
+									"usuario ya registrado", JOptionPane.ERROR_MESSAGE);
 
 					}
 				} else
@@ -104,7 +116,7 @@ public class Registro extends JFrame {
 
 	}
 
-	public boolean verificarEmail(String email) {
+	public static boolean verificarEmail(String email) {
 
 		Pattern pattern = Pattern.compile(
 				"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");

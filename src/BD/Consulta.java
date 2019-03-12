@@ -18,16 +18,14 @@ public class Consulta {
 	public static boolean insertar(Object obj) {
 
 		Persona persona = (Persona) obj;
-
+		String consulta = "select p.email from Persona p ";
+		consulta += "where p.email=" + "'" + persona.getEmail() + "'";
 		Transaction tx = iniciarTransaccion();
 
 		try {
-			if (consultar(persona.getEmail()) != null) {
-				session.save(obj);// guardo el registro en la base de datos
-				tx.commit();
-			}
-			else 
-				return false;
+
+			session.save(obj);// guardo el registro en la base de datos
+			tx.commit();
 
 		} catch (Exception e) {
 

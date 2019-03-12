@@ -13,6 +13,11 @@ public class Persona {
 		this.contraseña = contraseña;
 		this.nick = nick;
 	}
+	
+	public Persona(String email,String contraseña) {
+		this.email = email;
+		this.contraseña = contraseña;
+	}
 
 	public void setEmail(String email) {
 		this.email = email;
