@@ -7,9 +7,9 @@
 		<id column="idPersona" name="idPersona" type="int">
 			<generator class="increment" />
 		</id>
-		<property column="email" name="email" not-null="true" type="String" />
-		<property column="contraseña" name="contraseña" not-null="true" type="String" />
-		<property column="nick" name="nick" not-null="true" type="String" />
+		<property column="email" name="email" not-null="true" type="string" />
+		<property column="contraseña" name="contraseña" not-null="true" type="string" />
+		<property column="nick" name="nick" not-null="true" type="string" />
 
 	</class>
 

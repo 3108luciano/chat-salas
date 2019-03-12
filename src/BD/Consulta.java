@@ -10,7 +10,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
-
 public class Consulta {
 
 	private static SessionFactory factory;
@@ -18,11 +17,18 @@ public class Consulta {
 
 	public static boolean insertar(Object obj) {
 
+		Persona persona = (Persona) obj;
+
 		Transaction tx = iniciarTransaccion();
 
 		try {
-			session.save(obj);// guardo el registro en la base de datos
-			tx.commit();
+			if (consultar(persona.getEmail()) != null) {
+				session.save(obj);// guardo el registro en la base de datos
+				tx.commit();
+			}
+			else 
+				return false;
+
 		} catch (Exception e) {
 
 			if (tx != null)
@@ -45,7 +51,7 @@ public class Consulta {
 		List<Object[]> lista_de_cosas = null;
 
 		try {
-			
+
 			Query q = session.createQuery(consulta); // envio la consulta a la base de datos
 			lista_de_cosas = q.getResultList();
 
@@ -64,7 +70,7 @@ public class Consulta {
 
 	}
 
-	public static org.hibernate.Transaction iniciarTransaccion() {
+	public static Transaction iniciarTransaccion() {
 		Configuration cfg = new Configuration();
 		cfg.configure("hibernate.cfg.xml");
 
