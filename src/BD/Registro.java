@@ -97,7 +97,7 @@ public class Registro extends JFrame {
 								JOptionPane.WARNING_MESSAGE);
 					if (lista_de_cosas.size() != 0) {
 						JOptionPane.showMessageDialog(null, "usuario ya existente", "usuario existente",
-								JOptionPane.ERROR_MESSAGE);
+									JOptionPane.ERROR_MESSAGE);
 					} else {
 						if (Consulta.insertar(persona) == true) {
 							Login login = new Login();

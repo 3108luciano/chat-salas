@@ -11,29 +11,31 @@ import javax.swing.DefaultListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
+import org.hibernate.result.Output;
+
+import Cliente.Cliente;
+import Stream.FlujoDeEntrada;
+import Stream.FlujoDeSalida;
+
 public class HiloServidor implements Runnable {
 
 	private Socket socket;
 	private PanelServidor panel;
-	private DataInputStream entrada;
-	private DataOutputStream salida;
+	private FlujoDeEntrada entrada;
+	private FlujoDeSalida salida;
 	private int idCliente;
 	private Socket socketReenvio;
 	private LinkedList<HiloServidor> Clientes;
 
-	public HiloServidor(Socket socket, PanelServidor panel, int idCliente, LinkedList<HiloServidor> Clientes) {
+	public HiloServidor(Socket socket, PanelServidor panel, int idCliente, LinkedList<HiloServidor> Clientes)
+			throws IOException {
 		this.socket = socket;
 		this.panel = panel;
 		this.idCliente = idCliente;
 		this.Clientes = Clientes;
-		try {
-			salida = new DataOutputStream(this.socket.getOutputStream());
-			entrada = new DataInputStream(this.socket.getInputStream());
 
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		FlujoDeEntrada entrada = new FlujoDeEntrada(socket);
+		FlujoDeSalida salida = new FlujoDeSalida(socket);
 
 	}
 
@@ -42,20 +44,17 @@ public class HiloServidor implements Runnable {
 
 		while (true) {
 			try {
-				String texto = entrada.readUTF();
 
-				panel.getTextArea().append("cliente " + idCliente + ": " + texto);
-				panel.getTextArea().append("\n");
+				Thread hiloEntrada = new Thread(entrada);
+				Thread hiloSalida = new Thread(salida);
 
-				for (HiloServidor c : Clientes) { //renvioo los mensajes a todos los clientes
-					c.salida.writeUTF(texto);
-				}
-			} catch (IOException e) {
-
-				e.printStackTrace();
+				hiloEntrada.start();
+				hiloSalida.start();
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
+
 		}
 
 	}
-
 }
