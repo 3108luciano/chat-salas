@@ -17,7 +17,7 @@ public class FlujoDeSalida implements Runnable {
 		salida = new ObjectOutputStream(socket.getOutputStream());
 	}
 
-	public synchronized void enviarMensaje(Mensaje mensaje) throws IOException {
+	public  void enviarMensaje(Mensaje mensaje) throws IOException {
 		salida.writeObject(mensaje);
 	}
 

@@ -12,6 +12,7 @@ import java.net.Socket;
 import javax.swing.JPanel;
 
 import BD.Login;
+import BD.Persona;
 import Mensajes.Mensaje;
 import Stream.FlujoDeEntrada;
 import Stream.FlujoDeSalida;
@@ -20,29 +21,19 @@ public class HiloCliente implements Runnable {
 
 	private FlujoDeEntrada entrada;
 	private FlujoDeSalida salida;
-	private Login inicioSesion;
 	private Socket socket;
+	private Persona persona;
 
-	public HiloCliente(Socket socket, Login inicioSesion) {
+	public HiloCliente(Socket socket, Persona persona) {
 		this.socket = socket;
-		this.inicioSesion = inicioSesion;
+		this.persona = persona;
 		try {
-			entrada = new FlujoDeEntrada(socket);
-			salida = new FlujoDeSalida(socket);
-
-			this.inicioSesion.getBoton1().addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-
-					try {
-						salida.enviarMensaje(new Mensaje(inicioSesion.getPersona()));
-					} catch (IOException e) {
-
-						e.printStackTrace();
-					}
-				}
-			});
+			salida = new FlujoDeSalida(this.socket);
+			salida.enviarMensaje(new Mensaje(this.persona));
+			entrada = new FlujoDeEntrada(this.socket);
+			
+		
+			
 		} catch (IOException e) {
 
 			e.printStackTrace();

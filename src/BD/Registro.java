@@ -100,7 +100,7 @@ public class Registro extends JFrame {
 									JOptionPane.ERROR_MESSAGE);
 					} else {
 						if (Consulta.insertar(persona) == true) {
-							Login login = new Login();
+							//Login login = new Login();
 							setVisible(false);
 						} else
 							JOptionPane.showMessageDialog(null, "este email ya se ha registrado",
