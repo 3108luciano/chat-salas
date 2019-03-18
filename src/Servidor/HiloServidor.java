@@ -13,7 +13,9 @@ import javax.swing.event.ListDataListener;
 
 import org.hibernate.result.Output;
 
+import BD.Persona;
 import Cliente.Cliente;
+import Mensajes.Mensaje;
 import Stream.FlujoDeEntrada;
 import Stream.FlujoDeSalida;
 
@@ -29,6 +31,7 @@ public class HiloServidor implements Runnable {
 
 	public HiloServidor(Socket socket, PanelServidor panel, int idCliente, LinkedList<HiloServidor> Clientes)
 			throws IOException {
+
 		this.socket = socket;
 		this.panel = panel;
 		this.idCliente = idCliente;
@@ -42,8 +45,11 @@ public class HiloServidor implements Runnable {
 	@Override
 	public void run() {
 
+		Persona persona;
+
 		while (true) {
 			try {
+				persona = (Persona) entrada.recibirMensaje();
 
 				Thread hiloEntrada = new Thread(entrada);
 				Thread hiloSalida = new Thread(salida);

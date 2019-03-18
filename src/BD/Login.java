@@ -38,7 +38,7 @@ public class Login extends JFrame {
 		boton1 = new JButton("Iniciar sesion");
 		boton1.setBounds(350, 75, 120, 30);
 
-		boton1.addActionListener(new ActionListener() {
+		/*boton1.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -47,28 +47,29 @@ public class Login extends JFrame {
 
 				String consulta = "select p.email,p.contraseña,p.nick from Persona p ";
 				consulta += "where p.email=" + "'" + persona.getEmail() + "'" + " and p.contraseña=" + "'"
-						+ persona.getContraseña() + "'";
+						+ persona.getContraseña() + "'";	
 
 				lista_de_cosas = Consulta.consultar(consulta);
 
 				if (Registro.verificarEmail(persona.getEmail()) == true) {
 
-					if (lista_de_cosas.get(0)[0].equals( persona.getEmail())
-							&& lista_de_cosas.get(0)[1] .equals(persona.getContraseña())) 
+					if (!lista_de_cosas.get(0)[0].equals(persona.getEmail())
+							&& !lista_de_cosas.get(0)[1].equals(persona.getContraseña()))
 						JOptionPane.showMessageDialog(null,
 								"el usuario o contraseña ingresado es erroneo. vuelva a ingresarlo correctamente",
 								"datos erroneos", JOptionPane.ERROR_MESSAGE);
-
-					if (persona.getEmail().equals("") || persona.getContraseña().equals(""))
-						JOptionPane.showMessageDialog(null, "llene todo los campos", "campos vacios",
-								JOptionPane.WARNING_MESSAGE);
-					else
-						System.out.println("logueo exitoso");
+					else {
+						if (persona.getEmail().equals("") || persona.getContraseña().equals(""))
+							JOptionPane.showMessageDialog(null, "llene todo los campos", "campos vacios",
+									JOptionPane.WARNING_MESSAGE);
+						else
+							System.out.println("logueo exitoso");
+					}
 				}
 
 			}
 		});
-
+*/
 		setBounds(0, 0, 500, 350);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -81,7 +82,12 @@ public class Login extends JFrame {
 		setVisible(true);
 	}
 
-	public static void main(String[] args) {
-		Login login = new Login();
+	public JButton getBoton1() {
+		return boton1;
 	}
+
+	public Persona getPersona() {
+		return persona;
+	}
+
 }

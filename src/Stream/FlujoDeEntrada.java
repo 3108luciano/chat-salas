@@ -17,8 +17,8 @@ public class FlujoDeEntrada implements Runnable {
 		entrada = new ObjectInputStream(this.socket.getInputStream());
 	}
 
-	public Mensaje recibirMensaje() throws ClassNotFoundException, IOException {
-		return (Mensaje) entrada.readObject();
+	public  Object recibirMensaje() throws ClassNotFoundException, IOException {
+		return  entrada.readObject();
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class FlujoDeEntrada implements Runnable {
 		while (true) {
 			try {
 
-				mensaje = recibirMensaje();
+				mensaje = (Mensaje) recibirMensaje();
 
 			} catch (Exception e) {
 				
