@@ -1,75 +1,122 @@
 package Cliente;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.Socket;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import BD.Persona;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PanelCliente extends JFrame implements Serializable {
-	private JPanel contentPane;
-	private JTextField textField;
-	private JTextArea textArea;
-	private JButton btnEnviar;
-	private JScrollPane scrollPane;
-	private JLabel lblChat;
+	
+	private JTextField textfieldEmail, textfieldContraseña;
+	private JLabel label1, label2;
+	private JButton boton1;
+	private String email;
+	private String contraseña;
+	private ObjectOutputStream salida;
+	private Socket socket;
+	private Persona persona;
+	
+	public PanelCliente(Socket socket) {
 
-	public PanelCliente() {
+		this.setTitle("Login");
 
-		setTitle("Chat");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 483, 325);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(null);
-		setContentPane(contentPane);
+		setLayout(null);	
+		
+		try {
+			salida = new ObjectOutputStream(socket.getOutputStream());
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		
+		textfieldEmail = new JTextField();
+		textfieldContraseña = new JPasswordField();
 
-		btnEnviar = new JButton("Enviar");
-		btnEnviar.setBounds(301, 225, 89, 23);
-		contentPane.add(btnEnviar);
+		label1 = new JLabel("Correo electronico");
+		label2 = new JLabel("Contraseña");
 
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(40, 43, 350, 151);
-		contentPane.add(scrollPane);
+		label1.setBounds(50, 50, 120, 30);
+		label2.setBounds(210, 50, 120, 30);
 
-		textField = new JTextField();
-		textField.setBounds(40, 219, 251, 35);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		textfieldEmail.setBounds(50, 80, 120, 25);
+		textfieldContraseña.setBounds(200, 80, 120, 25);
 
-		textArea = new JTextArea();
-		textArea.setBounds(40, 45, 348, 149);
-		contentPane.add(textArea);
+		boton1 = new JButton("Iniciar sesion");
+		boton1.setBounds(350, 75, 120, 30);
 
-		lblChat = new JLabel("Chat");
-		lblChat.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		lblChat.setBounds(179, 18, 46, 14);
-		contentPane.add(lblChat);
+		boton1.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				if (getTextfieldEmail().equals("") || getTextfieldContraseña().equals(""))
+					JOptionPane.showMessageDialog(null, "llene todo los campos", "campos vacios",
+							JOptionPane.WARNING_MESSAGE);
+				
+				else {
+					persona = new Persona(getTextfieldEmail(), getTextfieldContraseña());
+					try {
+						salida.writeObject(persona);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+					
+			}
+		});
+
+		setBounds(0, 0, 500, 350);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+
+		add(label1);
+		add(label2);
+		add(textfieldEmail);
+		add(textfieldContraseña);
+		add(boton1);
 		setVisible(true);
 	}
 
-	public void setTextField(String string) {
-		this.textField.setText(string);
+	public JButton getBoton1() {
+		return boton1;
 	}
 
-	public String getTexto() {
-		return textField.getText();
-
+	public String getTextfieldEmail() {
+		return textfieldEmail.getText();
 	}
 
-	public JButton getBtnEnviar() {
-		return btnEnviar;
+	public String getTextfieldContraseña() {
+		return textfieldContraseña.getText();
 	}
 
-	public void agregarTexto(String texto) {
-		textArea.append(texto);
+	public String getEmail() {
+		return email;
 	}
+
+	public String getContraseña() {
+		return contraseña;
+	}
+
+	
 
 }

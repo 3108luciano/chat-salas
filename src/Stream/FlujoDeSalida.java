@@ -17,8 +17,13 @@ public class FlujoDeSalida implements Runnable {
 		salida = new ObjectOutputStream(socket.getOutputStream());
 	}
 
-	public  void enviarMensaje(Mensaje mensaje) throws IOException {
-		salida.writeObject(mensaje);
+	public  void enviarMensaje(Mensaje mensaje) {
+		try {
+			salida.writeObject(mensaje);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -26,13 +31,7 @@ public class FlujoDeSalida implements Runnable {
 
 		while (true) {
 
-			try {
-				enviarMensaje(mensaje);
-
-			} catch (IOException e) {
-
-				e.printStackTrace();
-			}
+			enviarMensaje(mensaje);
 		}
 
 	}

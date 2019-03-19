@@ -31,7 +31,7 @@ public class Servidor {
 
 			while (true) {
 				conexion = serversocket.accept();
-				HiloServidor cliente = new HiloServidor(conexion, panel, ++idCliente, Clientes);
+				HiloServidor cliente = new HiloServidor(conexion);
 				Clientes.add(cliente); // guardo los clientes
 
 				Thread hilo = new Thread(cliente);// escucho lo que viene de los clientes

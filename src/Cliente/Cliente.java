@@ -2,48 +2,51 @@ package Cliente;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import javax.swing.*;
 
-import BD.Login;
+import BD.Persona;
+import Mensajes.Mensaje;
 
-import javax.swing.JButton;
-import javax.swing.JTextArea;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
+import java.awt.*;
 
 public class Cliente extends JFrame {
 
+	private JTextField textfieldEmail, textfieldContraseña;
+	private JLabel label1, label2;
+	private JButton boton1;
+	private Persona persona;
 	private Socket socket;
 	private PanelCliente panel;
-
 	public Cliente(int puerto) {
+	
+
 		
-		
+
+			try {
+				socket = new Socket("192.168.0.219", puerto);// va la ip del servidor
+				panel  = new PanelCliente(socket);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}//
+			HiloCliente cliente = new HiloCliente(socket, panel); // me pongo a la escucha de lo que viene por el
+																	// servidor
+			Thread hilo = new Thread(cliente);
+			hilo.start();
+
 		
 		
 
-		try {
-			//panel = new PanelCliente(); 
-			
-			socket = new Socket("192.168.0.219", puerto);// va la ip del servidor
-			Login inicioSesion  = new Login(socket);
-			//HiloCliente cliente = new HiloCliente(socket, inicioSesion); // me pongo a la escucha de lo que viene por el servidor
-			
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
 	public static void main(String[] args) {
-
-		Cliente frame = new Cliente(10000);
-
+		Cliente cliente = new Cliente(10000);
 	}
+
 }
