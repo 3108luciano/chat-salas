@@ -1,7 +1,5 @@
 package Servidor;
 
-
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -17,28 +15,37 @@ import org.hibernate.result.Output;
 
 import BD.Consulta;
 import BD.Persona;
-import BD.Registro;
+import Gui.Gui_Login;
+import Gui.Gui_Registro;
 import Mensajes.Mensaje;
-
 
 public class HiloServidor implements Runnable {
 
 	private Socket socket;
 	private PanelServidor panel;
-	//private FlujoDeEntrada entrada;
-	//private FlujoDeSalida salida;
+	// private FlujoDeEntrada entrada;
+	// private FlujoDeSalida salida;
 	private int idCliente;
 	private Socket socketReenvio;
 	private LinkedList<HiloServidor> Clientes;
 	private List<Object[]> lista_de_cosas;
 	private Persona persona;
 	private ObjectInputStream input;
-	public HiloServidor(Socket socket) throws IOException {
+	private Mensaje mensaje;
+	private boolean corriendo=true; 
+	
+	public HiloServidor(Socket socket) {
 
 		this.socket = socket;
-		input = new ObjectInputStream(this.socket.getInputStream());
-		//salida = new FlujoDeSalida(this.socket);
-		//entrada = new FlujoDeEntrada(this.socket);
+
+		try {
+			input = new ObjectInputStream(this.socket.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// salida = new FlujoDeSalida(this.socket);
+		// entrada = new FlujoDeEntrada(this.socket);
 
 	}
 
@@ -50,40 +57,43 @@ public class HiloServidor implements Runnable {
 
 		lista_de_cosas = Consulta.consultar(consulta);
 
-		if (!lista_de_cosas.get(0)[0].equals(persona.getEmail())
-				&& !lista_de_cosas.get(0)[1].equals(persona.getContraseña()))
+		if (lista_de_cosas.isEmpty()) {
 			JOptionPane.showMessageDialog(null,
 					"el usuario o contraseña ingresado es erroneo. vuelva a ingresarlo correctamente", "datos erroneos",
 					JOptionPane.ERROR_MESSAGE);
-			else
-				return true;
-		
+			return false;
+		}
+
 		return true;
 	}
 
 	@Override
 	public void run() {
 
-		while (true) {
+		while(mensaje==null) {
 			
-				try {
-					persona = (Persona) input.readObject();
-					if (Registro.verificarEmail(persona.getEmail()) == true) {
-						if (validarUsuario(persona) == true) {
-							persona.setNick(lista_de_cosas.get(0)[2].toString());
-							System.out.println("inicio de sesion exitoso. " + persona.getNick() + " ha iniciado sesion.");
-						}
-					}
-				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		
+
+			try {
+				System.out.println("estoy escuchando");
+				mensaje = (Mensaje) input.readObject();
+				persona = (Persona) mensaje.getDatos();
+				System.out.println(persona.getEmail() + " " + persona.getContraseña());
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println(e.getMessage().toString());
+			}
+
+			persona = (Persona) mensaje.getDatos();
+			if (Gui_Registro.verificarEmail(persona.getEmail()) == true) {
+				if (validarUsuario(persona) == true) {
+					persona.setNick(lista_de_cosas.get(0)[2].toString());
+					System.out.println("inicio de sesion exitoso. " + persona.getNick() + " ha iniciado sesion.");
 				}
-				
-			
-
-			
-
-		}
+			}
 
 	}
+}
+	
 }

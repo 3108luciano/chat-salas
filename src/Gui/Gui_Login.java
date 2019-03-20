@@ -1,4 +1,4 @@
-package Cliente;
+package Gui;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,38 +16,62 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import BD.Persona;
+import Cliente.HiloReconexion;
+import Mensajes.Comandos;
+import Mensajes.Mensaje;
+import Servidor.HiloServidor;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PanelCliente extends JFrame implements Serializable {
-	
+public class Gui_Login extends JFrame implements Serializable {
+
 	private JTextField textfieldEmail, textfieldContraseña;
 	private JLabel label1, label2;
 	private JButton boton1;
 	private String email;
 	private String contraseña;
 	private ObjectOutputStream salida;
-	private Socket socket;
 	private Persona persona;
-	
-	public PanelCliente(Socket socket) {
+	private  boolean flagBotonLogin;
+
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Gui_Login panelLoguin = new Gui_Login();
+					panelLoguin.setVisible(true);
+					crearHiloReconexion(panelLoguin);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		});
+
+	}
+
+	private static void crearHiloReconexion(Gui_Login panelLoguin) {
+		HiloReconexion hr = new HiloReconexion(panelLoguin);
+		Thread hilo = new Thread(hr);
+		hilo.start();
+
+	}
+
+	public Gui_Login() {
 
 		this.setTitle("Login");
 
-		setLayout(null);	
-		
-		try {
-			salida = new ObjectOutputStream(socket.getOutputStream());
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		
+		setLayout(null);
+
+		flagBotonLogin = new Boolean(false);
+
 		textfieldEmail = new JTextField();
 		textfieldContraseña = new JPasswordField();
 
@@ -68,20 +92,15 @@ public class PanelCliente extends JFrame implements Serializable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				if (getTextfieldEmail().equals("") || getTextfieldContraseña().equals(""))
+				if (getTextfieldEmail().equals("") || getTextfieldContraseña().equals("")) {
 					JOptionPane.showMessageDialog(null, "llene todo los campos", "campos vacios",
 							JOptionPane.WARNING_MESSAGE);
-				
-				else {
+				} else {
 					persona = new Persona(getTextfieldEmail(), getTextfieldContraseña());
-					try {
-						salida.writeObject(persona);
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					flagBotonLogin=true;
+
 				}
-					
+
 			}
 		});
 
@@ -94,7 +113,7 @@ public class PanelCliente extends JFrame implements Serializable {
 		add(textfieldEmail);
 		add(textfieldContraseña);
 		add(boton1);
-		setVisible(true);
+
 	}
 
 	public JButton getBoton1() {
@@ -117,6 +136,16 @@ public class PanelCliente extends JFrame implements Serializable {
 		return contraseña;
 	}
 
-	
+	public  boolean isFlagBotonLogin() {
+		return flagBotonLogin;
+	}
+
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setFlagBotonLogin(boolean flagBotonLogin) {
+		this.flagBotonLogin = flagBotonLogin;
+	}
 
 }

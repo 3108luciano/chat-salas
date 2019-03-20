@@ -8,45 +8,56 @@ import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 
-public class Servidor {
+import Gui.Gui_Login;
+import Mensajes.Comandos;
+
+public class Servidor implements Runnable {
 
 	private ServerSocket serversocket;
-	private int puerto;
-	boolean corriendo = true;
 	private PanelServidor panel;
 	private static int idCliente;
 	private LinkedList<HiloServidor> Clientes;
-
+	private boolean corriendo = true;
+	private int nrocliente;
+	private int puerto;
+	
 	public Servidor(int puerto) {
-
-		Clientes = new LinkedList<HiloServidor>();
-		this.puerto = puerto;
-		panel = new PanelServidor();
-
-		Socket conexion = null;
-
+		this.puerto=puerto;
 		try {
-
 			serversocket = new ServerSocket(this.puerto);
-
-			while (true) {
-				conexion = serversocket.accept();
-				HiloServidor cliente = new HiloServidor(conexion);
-				Clientes.add(cliente); // guardo los clientes
-
-				Thread hilo = new Thread(cliente);// escucho lo que viene de los clientes
-				hilo.start();
-
-			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
-
 	}
 
-	public static void main(String[] args) {
+	@Override
+	public void run() {
 
-		Servidor server = new Servidor(10000);
+		Socket socketNuevo = null;
+
+		while (corriendo) {
+
+			try {
+				socketNuevo = serversocket.accept();
+				System.out.println("el cliente : "+ ++nrocliente+"ha sido aceptado con su IP: "+socketNuevo.getInetAddress());
+				HiloServidor hiloServidor = new HiloServidor(socketNuevo);
+				Thread hilo = new Thread(hiloServidor);
+				hilo.start();
+			} catch (IOException e) {
+			
+				e.printStackTrace();
+				corriendo = false;
+				
+			}
+		}
+		
+		try {
+			serversocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

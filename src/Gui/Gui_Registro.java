@@ -1,4 +1,4 @@
-package BD;
+package Gui;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import BD.Consulta;
+import BD.Persona;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -17,7 +21,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Registro extends JFrame {
+public class Gui_Registro extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -28,7 +32,7 @@ public class Registro extends JFrame {
 	private Persona persona;
 	private List<Object[]> lista_de_cosas;
 
-	public Registro() {
+	public Gui_Registro() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -133,7 +137,7 @@ public class Registro extends JFrame {
 
 	public static void main(String[] args) {
 
-		Registro frame = new Registro();
+		Gui_Registro frame = new Gui_Registro();
 
 	}
 }

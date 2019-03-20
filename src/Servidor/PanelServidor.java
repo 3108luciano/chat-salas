@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Mensajes.Comandos;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JLabel;
@@ -18,9 +21,21 @@ public class PanelServidor extends JFrame {
 	private JTextArea textArea;
 	private JScrollPane scrollPane;
 	private JLabel lblConversacion;
+	private Servidor servidor;
+
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+
+			public void run() {
+				PanelServidor frame = new PanelServidor();
+				frame.setVisible(true);
+			}
+		});
+	}
 
 	public PanelServidor() {
-		
+
 		setTitle("Servidor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -39,8 +54,10 @@ public class PanelServidor extends JFrame {
 		lblConversacion.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		lblConversacion.setBounds(161, 11, 89, 14);
 		contentPane.add(lblConversacion);
-
-		setVisible(true);
+		
+		servidor = new Servidor(Comandos.PUERTO);
+		Thread hilo = new Thread(servidor);
+		hilo.start();
 
 	}
 
