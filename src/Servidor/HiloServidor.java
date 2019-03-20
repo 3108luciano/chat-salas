@@ -32,8 +32,8 @@ public class HiloServidor implements Runnable {
 	private Persona persona;
 	private ObjectInputStream input;
 	private Mensaje mensaje;
-	private boolean corriendo=true; 
-	
+	private boolean corriendo = true;
+
 	public HiloServidor(Socket socket) {
 
 		this.socket = socket;
@@ -70,30 +70,28 @@ public class HiloServidor implements Runnable {
 	@Override
 	public void run() {
 
-		while(mensaje==null) {
-			
-		
+		while (corriendo) {
 
 			try {
-				System.out.println("estoy escuchando");
+				corriendo = false;
 				mensaje = (Mensaje) input.readObject();
 				persona = (Persona) mensaje.getDatos();
-				System.out.println(persona.getEmail() + " " + persona.getContraseña());
+
+				if (Gui_Registro.verificarEmail(persona.getEmail()) == true) {
+					if (validarUsuario(persona) == true) {
+						persona.setNick(lista_de_cosas.get(0)[2].toString());
+						System.out.println("inicio de sesion exitoso. " + persona.getNick() + " ha iniciado sesion.");
+						
+					}
+				}
+
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				System.out.println(e.getMessage().toString());
+
 			}
 
-			persona = (Persona) mensaje.getDatos();
-			if (Gui_Registro.verificarEmail(persona.getEmail()) == true) {
-				if (validarUsuario(persona) == true) {
-					persona.setNick(lista_de_cosas.get(0)[2].toString());
-					System.out.println("inicio de sesion exitoso. " + persona.getNick() + " ha iniciado sesion.");
-				}
-			}
-
+		}
 	}
-}
-	
+
 }

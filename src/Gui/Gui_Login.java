@@ -136,11 +136,11 @@ public class Gui_Login extends JFrame implements Serializable {
 		return contraseña;
 	}
 
-	public  boolean isFlagBotonLogin() {
+	public  synchronized boolean isFlagBotonLogin() {
 		return flagBotonLogin;
 	}
 
-	public Persona getPersona() {
+	public synchronized Persona getPersona() {
 		return persona;
 	}
 

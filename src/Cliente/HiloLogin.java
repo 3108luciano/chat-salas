@@ -18,27 +18,26 @@ public class HiloLogin implements Runnable {
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
 		this.panel = panel;
-		
+
 		try {
 			salida = new ObjectOutputStream(this.socket.getOutputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
 	public void run() {
 
 		while (corriendo) {
-			System.out.println("esperando iniciar sesion");
+			
 			if (panel.isFlagBotonLogin()) {
-				
+
 				panel.setFlagBotonLogin(false);
 				try {
-					
-					
+
 					salida.writeObject(new Mensaje(Comandos.LOGIN, panel.getPersona()));
 					corriendo = false;
 				} catch (IOException e) {

@@ -52,10 +52,12 @@ public class HiloReconexion implements Runnable {
 					Thread.sleep(2000);// cada 2 segundos intento conectarme nuevamente
 				}
 			} catch (IOException | InterruptedException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
+		
+		
 	}
 
 }
