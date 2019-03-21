@@ -42,18 +42,13 @@ public class Gui_Login extends JFrame implements Serializable {
 
 	public static void main(String[] args) {
 
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+	
+			
 					Gui_Login panelLoguin = new Gui_Login();
 					panelLoguin.setVisible(true);
 					crearHiloReconexion(panelLoguin);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-
-		});
+				
+		
 
 	}
 

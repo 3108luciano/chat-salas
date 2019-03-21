@@ -43,7 +43,7 @@ public class Persona implements Serializable {
 		return contraseña;
 	}
 
-	public String getNick() {
+	public synchronized String getNick() {
 		return nick;
 	}
 

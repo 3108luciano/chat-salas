@@ -20,9 +20,9 @@ public class Servidor implements Runnable {
 	private boolean corriendo = true;
 	private int nrocliente;
 	private int puerto;
-	
+
 	public Servidor(int puerto) {
-		this.puerto=puerto;
+		this.puerto = puerto;
 		try {
 			serversocket = new ServerSocket(this.puerto);
 		} catch (IOException e) {
@@ -40,18 +40,16 @@ public class Servidor implements Runnable {
 
 			try {
 				socketNuevo = serversocket.accept();
-				System.out.println("el cliente : "+ ++nrocliente+"ha sido aceptado con su IP: "+socketNuevo.getInetAddress());
 				HiloServidor hiloServidor = new HiloServidor(socketNuevo);
 				Thread hilo = new Thread(hiloServidor);
 				hilo.start();
 			} catch (IOException e) {
-			
 				e.printStackTrace();
 				corriendo = false;
-				
+
 			}
 		}
-		
+
 		try {
 			serversocket.close();
 		} catch (IOException e) {

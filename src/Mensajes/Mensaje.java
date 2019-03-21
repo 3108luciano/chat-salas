@@ -15,6 +15,10 @@ public class Mensaje implements Serializable {
 		this.datos=datos;
 	}
 
+	public Mensaje(Object datos) {
+		this.datos=datos;
+	}
+
 	public int getCodigo() {
 		return codigo;
 	}
