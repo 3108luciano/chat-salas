@@ -16,20 +16,21 @@ import org.hibernate.result.Output;
 
 import BD.Consulta;
 import BD.Persona;
+import Cliente.Cliente;
 import Gui.Gui_Login;
 import Gui.Gui_Registro;
 import Mensajes.Mensaje;
+import Stream.FlujoDeEntrada;
+import Stream.FlujoDeSalida;
 
 public class HiloServidor implements Runnable {
 
 	private Socket socket;
 
-	// private FlujoDeEntrada entrada;
-	// private FlujoDeSalida salida;
+	private FlujoDeEntrada entrada;
+	private FlujoDeSalida salida;
 	private List<Object[]> lista_de_cosas;
 	private Persona persona;
-	private ObjectInputStream input;
-	private ObjectOutputStream output;
 	private Mensaje mensaje;
 	private boolean corriendo = true;
 	private boolean resultado;
@@ -39,15 +40,13 @@ public class HiloServidor implements Runnable {
 		this.socket = socket;
 
 		try {
-			output = new ObjectOutputStream(this.socket.getOutputStream());
-			input = new ObjectInputStream(this.socket.getInputStream());
+			salida = new FlujoDeSalida(this.socket);
+			entrada = new FlujoDeEntrada(this.socket);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
-		// salida = new FlujoDeSalida(this.socket);
-		// entrada = new FlujoDeEntrada(this.socket);
 
 	}
 
@@ -73,15 +72,20 @@ public class HiloServidor implements Runnable {
 
 			try {
 				corriendo = false;
-				mensaje = (Mensaje) input.readObject();
+				mensaje = (Mensaje) entrada.recibirMensaje();
 				persona = (Persona) mensaje.getDatos();
 
 				if (Gui_Registro.verificarEmail(persona.getEmail()) == true) {
+
 					if (resultado = validarUsuario(persona) == true) {
+
 						persona.setNick(lista_de_cosas.get(0)[2].toString());
-						output.writeObject(new Mensaje(persona));
+						salida.enviarMensaje(new Mensaje(persona));
+
+						Cliente clienteNuevo = new Cliente(persona.getNick(), entrada, salida);
+						
 					} else
-						output.writeObject(null);
+						salida.enviarMensaje(null);
 				}
 
 			} catch (ClassNotFoundException | IOException e) {

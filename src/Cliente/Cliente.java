@@ -14,39 +14,31 @@ import BD.Persona;
 import Gui.Gui_Login;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
+import Stream.FlujoDeEntrada;
+import Stream.FlujoDeSalida;
 
 import java.awt.*;
 
 public class Cliente extends JFrame {
 
-	private JTextField textfieldEmail, textfieldContraseña;
-	private JLabel label1, label2;
-	private JButton boton1;
-	private Persona persona;
-	private Socket socket;
-	private Gui_Login panel;
-	private HiloReconexion cliente;
-	private Thread hilo;
+	private String nick;
+	private FlujoDeEntrada entrada;
+	private FlujoDeSalida salida;
 
-	public Cliente() {
-
-		try {
-			socket = new Socket(Comandos.IP, Comandos.PUERTO);// va la ip del servidor
-		//	panel = new Gui_Login(socket);
-
-			//cliente = new HiloReconexion(socket, panel); // me pongo a la escucha de lo que viene por el servidor
-			//hilo = new Thread(cliente);
-			//hilo.start();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} //
-
+	public Cliente(String nick, FlujoDeEntrada entrada, FlujoDeSalida salida) {
+		this.nick = nick;
+		this.salida = salida;
+		this.entrada = entrada;
 	}
-
-	public static void main(String[] args) {
-		Cliente cliente = new Cliente();
+	
+	public void iniciarEscuchar() {
+		Thread hilo = new Thread(entrada);
+		hilo.start();
+	}
+	
+	public void iniciarRespuesta() {
+		Thread hilo = new Thread(salida);
+		hilo.start();
 	}
 
 }

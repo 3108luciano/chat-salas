@@ -11,26 +11,28 @@ import BD.Persona;
 import Gui.Gui_Login;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
+import Stream.FlujoDeEntrada;
+import Stream.FlujoDeSalida;
 
 public class HiloLogin implements Runnable {
 
 	private Socket socket;
 	private Gui_Login panel;
 	private boolean corriendo = true;
-	private ObjectOutputStream salida;
-	private ObjectInputStream entrada;
 	private Mensaje resultado;
 	private Persona persona;
+	private FlujoDeEntrada entrada;
+	private FlujoDeSalida salida;
 
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
 		this.panel = panel;
 
 		try {
-			salida = new ObjectOutputStream(this.socket.getOutputStream());
-			entrada = new ObjectInputStream(this.socket.getInputStream());
+			salida = new FlujoDeSalida(this.socket);
+			entrada = new FlujoDeEntrada(this.socket);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -46,9 +48,9 @@ public class HiloLogin implements Runnable {
 				panel.setFlagBotonLogin(false);
 				try {
 
-					salida.writeObject(new Mensaje(Comandos.LOGIN, panel.getPersona()));
+					salida.enviarMensaje(new Mensaje(Comandos.LOGIN, panel.getPersona()));
+					resultado = (Mensaje) entrada.recibirMensaje();
 
-					resultado = (Mensaje) entrada.readObject();
 					persona = (Persona) resultado.getDatos();
 
 					if (resultado != null) {
