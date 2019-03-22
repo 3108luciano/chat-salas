@@ -8,10 +8,13 @@ public class Sala {
 
 	private ArrayList<HiloServidor> Clientes;
 	private String nombre;
-	private int idSala;
+	private int nroSala;
+	private int cantJugadores;
 
 	public Sala(String nombre) {
+		this.nroSala=nroSala;
 		this.nombre = nombre;
+		this.cantJugadores=cantJugadores;
 		
 	}
 	

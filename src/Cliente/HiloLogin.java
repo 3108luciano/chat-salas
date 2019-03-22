@@ -11,6 +11,7 @@ import BD.Persona;
 import Gui.Gui_Login;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
+import Sala.Lobby;
 import Stream.FlujoDeEntrada;
 import Stream.FlujoDeSalida;
 
@@ -55,6 +56,10 @@ public class HiloLogin implements Runnable {
 
 					if (resultado != null) {
 						System.out.println("el usuario: " + persona.getNick() + " ha iniciado sesion.");
+						panel.setVisible(false);
+						
+						Lobby lobby = new Lobby(salida,persona);
+						
 					} else {
 						corriendo = false;
 						panel.setFlagBotonLogin(true);
