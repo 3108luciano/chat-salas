@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Cliente.Cliente;
+import Cliente.Persona;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -27,7 +28,7 @@ public class Gui_Registro extends JFrame {
 	private JTextField textField_2;
 	private JLabel lblNewLabel, lblNewLabel_1, lblNewLabel_2, lblNewLabel_3;
 	private JButton registrarse;
-	private Cliente persona;
+	private Persona persona;
 	private List<Object[]> lista_de_cosas;
 
 	public Gui_Registro() {
@@ -75,21 +76,21 @@ public class Gui_Registro extends JFrame {
 		registrarse.setBounds(301, 207, 105, 30);
 		contentPane.add(registrarse);
 
-		setVisible(true);
+		
 
-		registrarse.addActionListener(new ActionListener() {
+		/*registrarse.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				persona = new Cliente(textField.getText().trim(), textField_1.getText().trim(),
+				persona = new Persona(textField.getText().trim(), textField_1.getText().trim(),
 						textField_2.getText().trim());
 
 				String consulta = "select p.email,p.nick from Persona p ";
 				consulta += "where p.email=" + "'" + persona.getEmail() + "'" + "and p.nick=" + "'" + persona.getNick()
 						+ "'";
 
-				lista_de_cosas = Consulta.consultar(consulta);
+			//	lista_de_cosas = Consulta.consultar(consulta);
 
 				if (verificarEmail(persona.getEmail()) == true) {
 
@@ -115,7 +116,8 @@ public class Gui_Registro extends JFrame {
 
 			}
 		});
-
+*/
+		setVisible(true);
 	}
 
 	

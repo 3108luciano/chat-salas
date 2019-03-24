@@ -6,11 +6,10 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-
+import Gui.Gui_Lobby;
 import Gui.Gui_Login;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
-import Sala.GuiLobby;
 import Sala.Sala;
 import Stream.FlujoDeEntrada;
 import Stream.FlujoDeSalida;
@@ -59,7 +58,7 @@ public class HiloLogin implements Runnable {
 						System.out.println("el usuario: " + persona.getNick() + " ha iniciado sesion.");
 						panel.setVisible(false);
 						
-						GuiLobby guiLobby = new GuiLobby(salida,persona);
+						Gui_Lobby guiLobby = new Gui_Lobby(salida,persona);
 						HiloLobbyEntrada hilolobbyentrada = new HiloLobbyEntrada(guiLobby,entrada);
 						
 						Sala lobby = new Sala(-1,"Lobby",1);

@@ -3,20 +3,21 @@ package Cliente;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import Gui.Gui_Lobby;
 import Mensajes.Mensaje;
-import Sala.GuiLobby;
+
 import Sala.Sala;
 import Stream.FlujoDeEntrada;
 
 public class HiloLobbyEntrada implements Runnable {
 
-	private GuiLobby guiLobby;
+	private Gui_Lobby guiLobby;
 	private FlujoDeEntrada entrada;
 	private ArrayList<String> backupClientesLobby;
 	private ArrayList<Sala> backupSalasLobby;
 	private boolean corriendo = true;
 
-	public HiloLobbyEntrada(GuiLobby guiLobby, FlujoDeEntrada entrada) {
+	public HiloLobbyEntrada(Gui_Lobby guiLobby, FlujoDeEntrada entrada) {
 		this.guiLobby = guiLobby;
 		this.entrada = entrada;
 

@@ -24,7 +24,7 @@ public class Mensaje implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int getCodigo() {
+	public Object getCodigo() {
 		return codigo;
 	}
 
