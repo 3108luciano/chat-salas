@@ -1,7 +1,7 @@
 package Mensajes;
 
-import Operaciones.CrearSala;
-import Operaciones.UnirseSala;
+import Operacion.CrearSala;
+import Operacion.UnirseSala;
 
 public class Comandos {
 

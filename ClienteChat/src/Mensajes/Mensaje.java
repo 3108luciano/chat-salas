@@ -3,7 +3,7 @@ package Mensajes;
 import java.io.Serializable;
 
 import Cliente.Persona;
-import Operaciones.CrearSala;
+import Operacion.CrearSala;
 
 public class Mensaje implements Serializable {
 
