@@ -2,34 +2,36 @@ package Sala;
 
 import java.util.ArrayList;
 
+import Cliente.Cliente;
 import Servidor.HiloServidor;
 
 public class Sala {
 
-	private ArrayList<HiloServidor> Clientes;
+	private ArrayList<Cliente> clientes;
 	private String nombre;
 	private int nroSala;
 	private int cantJugadores;
 
-	public Sala(int nroSala,String nombre,int cantJugadores) {
-		this.nroSala=nroSala;
+	public Sala(int nroSala, String nombre, int cantJugadores) {
+		this.nroSala = nroSala;
 		this.nombre = nombre;
-		this.cantJugadores=cantJugadores;
-		
+		this.cantJugadores = cantJugadores;
+		clientes = new ArrayList<Cliente>();
+
 	}
-	
-	public void meterClienteEnSala(HiloServidor cliente) {
-		
-		if(Clientes.contains(cliente)) 
-			return ;// el usuario ya esta en la sala
-		Clientes.add(cliente);//agrego el cliente a la sala
+
+	public void meterClienteEnSala(Cliente cliente) {
+
+		if (clientes.contains(cliente))
+			return;// el usuario ya esta en la sala
+		clientes.add(cliente);// agrego el cliente a la sala
 	}
-	
-	public void sacarClienteEnSala(HiloServidor cliente) {
-		
-		if(!Clientes.contains(cliente)) 
-			return ;// el usuario ya esta en la sala
-		Clientes.remove(cliente);//agrego el cliente a la sala
+
+	public void sacarClienteEnSala(Cliente cliente) {
+
+		if (!clientes.contains(cliente))
+			return;// el usuario no esta en la sala
+		clientes.remove(cliente);// saco el cliente de la sala
 	}
 
 	@Override
@@ -56,5 +58,5 @@ public class Sala {
 			return false;
 		return true;
 	}
-	
+
 }
