@@ -78,10 +78,23 @@ public class Gui_Lobby extends JFrame {
 			}
 		});
 		
+		
+		
 		botonUnirse = new JButton("Unirse");
 		botonUnirse.setBounds(216, 11, 89, 23);
 		contentPane.add(botonUnirse);
 
+		botonUnirse.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String nombreSala = JOptionPane.showInputDialog(null,"Ingrese el nombre de la sala");
+				salida.enviarMensaje(new Mensaje(Comandos.UNIRSESALA,nombreSala,persona));
+
+				
+			}
+		});
 		setVisible(true);
 
 	}

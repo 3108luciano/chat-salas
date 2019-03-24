@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class Mensaje implements Serializable {
 	
 	private static final long serialVersionUID = 2928832563874494113L;
-	private int codigo;
+	private Object codigo;
 	private Object datos;
 	private String cadena;
 	
@@ -20,8 +20,10 @@ public class Mensaje implements Serializable {
 		this.datos=datos;
 	}
 
-	public Mensaje(int codigo, String cadena, Object datos) {
-		// TODO Auto-generated constructor stub
+	public Mensaje(Object codigo, String cadena, Object datos) {
+		this.codigo = codigo;
+		this.cadena = cadena;
+		this.datos=datos;
 	}
 
 	public Object getCodigo() {

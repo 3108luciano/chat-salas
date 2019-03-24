@@ -67,46 +67,33 @@ public class HiloServidor implements Runnable {
 
 		while (corriendo) {
 
+			corriendo = false;
 			try {
-				corriendo = false;
-				mensaje = (Mensaje) entrada.recibirMensaje();
+				mensaje = entrada.recibirMensaje();
 				persona = (Persona) mensaje.getDatos();
 
-				switch (mensaje.getCodigo()) {
-				case Comandos.LOGIN: {
-					if (Consulta.verificarEmail(persona.getEmail()) == true) {
+				if (Consulta.verificarEmail(persona.getEmail()) == true) {
 
-						if (resultado = validarUsuario(persona) == true) {
+					if (resultado = validarUsuario(persona) == true) {
 
-							persona.setNick(lista_de_cosas.get(0)[2].toString());
-							salida.enviarMensaje(new Mensaje(persona));
+						persona.setNick(lista_de_cosas.get(0)[2].toString());
+						salida.enviarMensaje(new Mensaje(persona));
 
-							
-							Cliente clientenuevo = new Cliente(persona.getNick(), entrada, salida);
-						} else
-							salida.enviarMensaje(null);
-
-					}
-					break;
-				}
-				case Comandos.CREARSALA: {
-
-					break;
-				}
-
-				case Comandos.UNIRSESALA: {
+					
+						
+					} else
+						salida.enviarMensaje(null);
 
 				}
-
-				}
-
 			} catch (ClassNotFoundException | IOException e) {
-
+				// TODO Auto-generated catch block
 				e.printStackTrace();
-
 			}
 
+			Cliente clientenuevo = new Cliente(persona.getNick(), entrada, salida);
+			clientenuevo.iniciarEscuchar();
+			clientenuevo.iniciarRespuesta();
 		}
-	}
 
+	}
 }

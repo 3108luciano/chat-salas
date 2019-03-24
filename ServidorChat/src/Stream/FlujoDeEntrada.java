@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import Mensajes.Mensaje;
+import Operacion.CrearSala;
 import Servidor.ControladorServidor;
 
 public class FlujoDeEntrada implements Runnable {
@@ -13,6 +14,7 @@ public class FlujoDeEntrada implements Runnable {
 	Mensaje mensaje;
 	ObjectInputStream entrada;
 	ControladorServidor controlador;
+	CrearSala cs;
 	
 	public FlujoDeEntrada(Socket socket) throws IOException {
 		this.socket = socket;
@@ -32,6 +34,8 @@ public class FlujoDeEntrada implements Runnable {
 			try {
 				mensaje =  recibirMensaje();
 				controlador =  (ControladorServidor) mensaje.getCodigo();
+				cs=(CrearSala) mensaje.getCodigo();
+				cs.tratarPeticion(null);
 				controlador.tratarPeticion(mensaje);
 			} catch (Exception e) {
 				
