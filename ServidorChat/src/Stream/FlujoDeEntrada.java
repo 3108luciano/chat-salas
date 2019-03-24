@@ -31,14 +31,14 @@ public class FlujoDeEntrada implements Runnable {
 		
 		
 		while (true) {
+		
 			try {
-				mensaje =  recibirMensaje();
-				controlador =  (ControladorServidor) mensaje.getCodigo();
-				cs=(CrearSala) mensaje.getCodigo();
-				cs.tratarPeticion(null);
+				mensaje=recibirMensaje();
+				controlador = (ControladorServidor) mensaje.getCodigo();
 				controlador.tratarPeticion(mensaje);
-			} catch (Exception e) {
-				
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
