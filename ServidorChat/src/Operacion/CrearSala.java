@@ -18,8 +18,8 @@ public class CrearSala implements InterfazPeticion {
 
 		System.out.println("soy crear sala");
 
-	//	Sala sala = new Sala(1, mensaje.getCadena(), 1);
+		Sala sala = new Sala(1, mensaje.getCadena(), 1);
 
-	//	salas.add(sala);
+		salas.add(sala);
 	}
 }

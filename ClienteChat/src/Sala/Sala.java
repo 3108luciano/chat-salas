@@ -3,29 +3,32 @@ package Sala;
 import java.util.ArrayList;
 
 import Cliente.Cliente;
+import Gui.Gui_Sala;
 
 public class Sala {
 
 	private String nombre;
 	private int nroSala;
 	private int cantJugadores;
-	private ArrayList<Cliente> Clientes;
+	private ArrayList<String> Clientes;
+	private Gui_Sala gui_sala;
 
 	public Sala(int nroSala, String nombre, int cantJugadores) {
 		this.nroSala = nroSala;
 		this.nombre = nombre;
 		this.cantJugadores = cantJugadores;
+		Clientes = new ArrayList<String>();
 
 	}
 
-	public void meterClienteEnSala(Cliente cliente) {
+	public void meterClienteEnSala(String cliente) {
 
 		if (Clientes.contains(cliente))
 			return;// el usuario ya esta en la sala
 		Clientes.add(cliente);// agrego el cliente a la sala
 	}
 
-	public void sacarClienteEnSala(Cliente cliente) {
+	public void sacarClienteEnSala(String cliente) {
 
 		if (!Clientes.contains(cliente))
 			return;// el usuario ya esta en la sala
@@ -37,6 +40,7 @@ public class Sala {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + nroSala;
 		return result;
 	}
 
@@ -54,7 +58,11 @@ public class Sala {
 				return false;
 		} else if (!nombre.equals(other.nombre))
 			return false;
+		if (nroSala != other.nroSala)
+			return false;
 		return true;
 	}
+
+	
 
 }

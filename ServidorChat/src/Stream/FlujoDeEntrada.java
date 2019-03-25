@@ -14,7 +14,6 @@ public class FlujoDeEntrada implements Runnable {
 	Socket socket;
 	Mensaje mensaje;
 	ObjectInputStream entrada;
-	InterfazPeticion peticion;
 
 	public FlujoDeEntrada(Socket socket) throws IOException {
 		this.socket = socket;
@@ -28,12 +27,14 @@ public class FlujoDeEntrada implements Runnable {
 	@Override
 	public void run() {
 
+		ControladorServidor controlador = new ControladorServidor();
+
 		while (true) {
 
 			try {
 				mensaje = recibirMensaje();
-				peticion = (InterfazPeticion) mensaje.getCodigo();
-				peticion.tratarPeticion(mensaje);
+				controlador.manejarMensaje(mensaje);
+
 			} catch (ClassNotFoundException | IOException e) {
 
 				e.printStackTrace();

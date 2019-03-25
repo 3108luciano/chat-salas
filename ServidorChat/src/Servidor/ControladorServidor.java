@@ -5,20 +5,25 @@ import java.util.ArrayList;
 
 import Cliente.Cliente;
 import Mensajes.Mensaje;
+import Operacion.InterfazPeticion;
 import Sala.Sala;
 
-public abstract class ControladorServidor  implements Serializable{
+public  class ControladorServidor implements Serializable {
 
 	private ArrayList<Sala> salas;
-	private ArrayList<Cliente>clientesLobby;
-	
+	private ArrayList<Cliente> clientesLobby;
+	private InterfazPeticion peticion;
+
 	public ControladorServidor() {
 		salas = new ArrayList<Sala>();
 		clientesLobby = new ArrayList<Cliente>();
-		salas.add(new Sala(-1,"lobby",10));
+		salas.add(new Sala(-1, "lobby", 10));
 	}
-	
-	public abstract void tratarPeticion(Mensaje mensaje);
+
+	public synchronized void manejarMensaje(Mensaje mensaje) {
+		peticion = (InterfazPeticion) mensaje.getCodigo();
+		peticion.tratarPeticion(mensaje);
+	}
 
 	public ArrayList<Sala> getSalas() {
 		return salas;
@@ -27,6 +32,5 @@ public abstract class ControladorServidor  implements Serializable{
 	public void setSalas(ArrayList<Sala> salas) {
 		this.salas = salas;
 	}
-	
-	
+
 }

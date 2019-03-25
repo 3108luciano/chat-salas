@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import Gui.Gui_Lobby;
 import Mensajes.Mensaje;
+import Operacion.InterfazPeticion;
 import Sala.Sala;
 import Stream.FlujoDeEntrada;
 
@@ -16,6 +17,7 @@ public class ControladorCliente implements Serializable, Runnable {
 	private Gui_Lobby guiLobby;
 	private FlujoDeEntrada entrada;
 	private boolean corriendo = true;
+	private InterfazPeticion peticion;
 
 	public ControladorCliente(Gui_Lobby guiLobby, FlujoDeEntrada entrada) {
 
@@ -29,6 +31,11 @@ public class ControladorCliente implements Serializable, Runnable {
 		return backupSalas;
 	}
 
+	public synchronized void manejarMensaje(Mensaje mensaje) {
+		peticion = (InterfazPeticion) mensaje.getCodigo();
+		peticion.tratarPeticion(mensaje);
+	}
+
 	@Override
 	public void run() {
 
@@ -39,6 +46,8 @@ public class ControladorCliente implements Serializable, Runnable {
 
 				if (mensaje != null) {
 					System.out.println("peticion recibida");
+					manejarMensaje(mensaje);
+
 				} else {
 					corriendo = false;
 				}
