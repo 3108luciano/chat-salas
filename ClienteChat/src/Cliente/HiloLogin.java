@@ -14,7 +14,6 @@ import Sala.Sala;
 import Stream.FlujoDeEntrada;
 import Stream.FlujoDeSalida;
 
-
 public class HiloLogin implements Runnable {
 
 	private Socket socket;
@@ -53,23 +52,26 @@ public class HiloLogin implements Runnable {
 					resultado = (Mensaje) entrada.recibirMensaje();
 
 					persona = (Persona) resultado.getDatos();
-					
+
 					if (resultado != null) {
 						System.out.println("el usuario: " + persona.getNick() + " ha iniciado sesion.");
 						panel.setVisible(false);
-						
-						Gui_Lobby guiLobby = new Gui_Lobby(salida,persona);
-						HiloLobbyEntrada hilolobbyentrada = new HiloLobbyEntrada(guiLobby,entrada);
-						
-						Sala lobby = new Sala(-1,"Lobby",1);
-						
-						Thread hiloe = new Thread(hilolobbyentrada); //recibe y envia peticiones sobre salas en el lobby
+
+						Gui_Lobby guiLobby = new Gui_Lobby(salida, persona);
+						ControladorCliente controlador = new ControladorCliente(guiLobby, entrada);
+
+						Sala lobby = new Sala(-1, "Lobby", 1);
+
+						controlador.getBackupSalas().add(lobby);
+					//	lobby.meterClienteEnSala(new Cliente(persona.getNick()));
+
+						Thread hiloe = new Thread(controlador); // recibe y envia peticiones sobre salas en el lobby
 						hiloe.start();
-						
+
 						HiloLobbySalida hilolobbysalida = new HiloLobbySalida();
-						Thread hilos= new Thread(hilolobbysalida);
+						Thread hilos = new Thread(hilolobbysalida);
 						hilos.start();
-						
+
 					} else {
 						corriendo = false;
 						panel.setFlagBotonLogin(true);

@@ -42,7 +42,6 @@ public class Gui_Sala extends JFrame {
 		contentPane.add(botonEnviar);
 
 		conversacion = new JTextArea();
-		
 
 		nombreSala = new JLabel("");
 		nombreSala.setBounds(151, 11, 46, 14);
@@ -55,17 +54,11 @@ public class Gui_Sala extends JFrame {
 		scrollPane = new JScrollPane(conversacion);
 		scrollPane.setBounds(42, 46, 282, 138);
 		contentPane.add(scrollPane);
-		
+
 		textMensaje = new JTextField();
 		textMensaje.setBounds(42, 213, 199, 37);
 		contentPane.add(textMensaje);
 		textMensaje.setColumns(10);
 	}
 
-	public static void main(String[] args) {
-
-		Gui_Sala frame = new Gui_Sala();
-		frame.setVisible(true);
-
-	}
 }

@@ -6,6 +6,7 @@ import java.net.Socket;
 
 import Mensajes.Mensaje;
 import Operacion.CrearSala;
+import Operacion.InterfazPeticion;
 import Servidor.ControladorServidor;
 
 public class FlujoDeEntrada implements Runnable {
@@ -13,8 +14,7 @@ public class FlujoDeEntrada implements Runnable {
 	Socket socket;
 	Mensaje mensaje;
 	ObjectInputStream entrada;
-	ControladorServidor controlador;
-	CrearSala cs;
+	InterfazPeticion peticion;
 
 	public FlujoDeEntrada(Socket socket) throws IOException {
 		this.socket = socket;
@@ -32,8 +32,8 @@ public class FlujoDeEntrada implements Runnable {
 
 			try {
 				mensaje = recibirMensaje();
-				controlador = (ControladorServidor) mensaje.getCodigo();
-				controlador.tratarPeticion(mensaje);
+				peticion = (InterfazPeticion) mensaje.getCodigo();
+				peticion.tratarPeticion(mensaje);
 			} catch (ClassNotFoundException | IOException e) {
 
 				e.printStackTrace();

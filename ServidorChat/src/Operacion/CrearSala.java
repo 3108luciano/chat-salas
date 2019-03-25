@@ -7,8 +7,9 @@ import Mensajes.Mensaje;
 import Sala.Sala;
 import Servidor.ControladorServidor;
 
-public class CrearSala extends ControladorServidor {
+public class CrearSala implements InterfazPeticion {
 
+	private static final long serialVersionUID = 2938832563874494113L;
 	private ArrayList<Sala> salas;
 	private ArrayList<Cliente> clienteslobby;
 
@@ -17,8 +18,8 @@ public class CrearSala extends ControladorServidor {
 
 		System.out.println("soy crear sala");
 
-		Sala sala = new Sala(1, mensaje.getCadena(), 1);
+	//	Sala sala = new Sala(1, mensaje.getCadena(), 1);
 
-		salas.add(sala);
+	//	salas.add(sala);
 	}
 }
