@@ -13,13 +13,25 @@ public class CrearSala implements InterfazPeticion {
 	private ArrayList<Sala> salas;
 	private ArrayList<Cliente> clienteslobby;
 
+	public CrearSala(ArrayList<Sala> salas,ArrayList<Cliente> clienteslobby) {
+		this.salas=salas;
+		this.clienteslobby=clienteslobby;
+	}
+	
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
 
-		System.out.println("soy crear sala");
+		
 
-		Sala sala = new Sala(1, mensaje.getCadena(), 1);
-
+		Sala sala = new Sala(mensaje.getCadena(),true);
+		
+		//sala.meterClienteEnSala();
 		salas.add(sala);
+		
+		
+		for(Cliente c : clienteslobby)
+			c.getSalida().enviarMensaje(mensaje);
+		
+		System.out.println("sala creada exitosamente");
 	}
 }

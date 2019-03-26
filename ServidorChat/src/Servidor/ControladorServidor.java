@@ -8,7 +8,7 @@ import Mensajes.Mensaje;
 import Operacion.InterfazPeticion;
 import Sala.Sala;
 
-public  class ControladorServidor implements Serializable {
+public class ControladorServidor implements Serializable {
 
 	private ArrayList<Sala> salas;
 	private ArrayList<Cliente> clientesLobby;
@@ -17,7 +17,7 @@ public  class ControladorServidor implements Serializable {
 	public ControladorServidor() {
 		salas = new ArrayList<Sala>();
 		clientesLobby = new ArrayList<Cliente>();
-		salas.add(new Sala(-1, "lobby", 10));
+		salas.add(new Sala("lobby"));
 	}
 
 	public synchronized void manejarMensaje(Mensaje mensaje) {
@@ -33,4 +33,21 @@ public  class ControladorServidor implements Serializable {
 		this.salas = salas;
 	}
 
+	public synchronized void meterEnLobby(Cliente cliente) {
+
+		if (clientesLobby.contains(cliente)) {
+			System.out.println("El cliente ya esta en el lobby");
+			return;
+		}
+
+		System.out.println("El cliente: " + cliente.getNick() + " ha entrado al lobby");
+		clientesLobby.add(cliente);
+
+		int i = 0;
+		while (!salas.get(i).getNombre().equals("Lobby"))
+			i++;
+
+		salas.get(i).meterClienteEnSala(cliente);
+
+	}
 }

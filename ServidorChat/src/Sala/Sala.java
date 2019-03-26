@@ -1,37 +1,55 @@
 package Sala;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import Cliente.Cliente;
+import Mensajes.Mensaje;
 import Servidor.HiloServidor;
 
 public class Sala {
 
-	private ArrayList<Cliente> clientes;
+	private ArrayList<Cliente> clientesEnSala;
 	private String nombre;
 	private int nroSala;
 	private int cantJugadores;
+	private static final AtomicInteger nroSalaIncremental = new AtomicInteger(1);
+	private int cantUsuarios;
 
-	public Sala(int nroSala, String nombre, int cantJugadores) {
-		this.nroSala = nroSala;
+	public Sala(String nombre, boolean banderaLobby) {
+
+		this.nroSala = nroSalaIncremental.getAndIncrement();
 		this.nombre = nombre;
-		this.cantJugadores = cantJugadores;
-		clientes = new ArrayList<Cliente>();
+		clientesEnSala = new ArrayList<Cliente>();
 
+	}
+
+	public Sala(String nombre) {
+		this.nroSala = 0;
+		this.nombre = nombre;
+		clientesEnSala = new ArrayList<Cliente>();
 	}
 
 	public void meterClienteEnSala(Cliente cliente) {
 
-		if (clientes.contains(cliente))
+		if (clientesEnSala.contains(cliente))
 			return;// el usuario ya esta en la sala
-		clientes.add(cliente);// agrego el cliente a la sala
+		clientesEnSala.add(cliente);// agrego el cliente a la sala
 	}
 
-	public void sacarClienteEnSala(Cliente cliente) {
+	public boolean sacarClienteEnSala(Cliente cliente) {
 
-		if (!clientes.contains(cliente))
-			return;// el usuario no esta en la sala
-		clientes.remove(cliente);// saco el cliente de la sala
+		if (!clientesEnSala.contains(cliente))
+			return false;// el usuario no esta en la sala
+
+		clientesEnSala.remove(cliente);// saco el cliente de la sala
+		return true;
+	}
+	
+	public void enviarMensaje(Mensaje mensaje) {
+		
+		for(Cliente c:clientesEnSala)
+			c.getSalida().enviarMensaje(mensaje);
 	}
 
 	@Override
@@ -59,4 +77,9 @@ public class Sala {
 		return true;
 	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	
 }

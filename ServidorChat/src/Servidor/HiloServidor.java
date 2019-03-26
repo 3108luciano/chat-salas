@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,13 +18,13 @@ import Cliente.Cliente;
 import Cliente.Persona;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
+import Sala.Sala;
 import Stream.FlujoDeEntrada;
 import Stream.FlujoDeSalida;
 
 public class HiloServidor implements Runnable {
 
 	private Socket socket;
-
 	private FlujoDeEntrada entrada;
 	private FlujoDeSalida salida;
 	private List<Object[]> lista_de_cosas;
@@ -31,6 +32,8 @@ public class HiloServidor implements Runnable {
 	private Mensaje mensaje;
 	private boolean corriendo = true;
 	private boolean resultado;
+	private ControladorServidor controlador;
+	private ArrayList<Sala> salas;
 
 	public HiloServidor(Socket socket) {
 
@@ -39,6 +42,7 @@ public class HiloServidor implements Runnable {
 		try {
 			salida = new FlujoDeSalida(this.socket);
 			entrada = new FlujoDeEntrada(this.socket);
+			controlador = new ControladorServidor();
 
 		} catch (IOException e) {
 
@@ -79,8 +83,12 @@ public class HiloServidor implements Runnable {
 						persona.setNick(lista_de_cosas.get(0)[2].toString());
 						salida.enviarMensaje(new Mensaje(persona));
 
-					
-						
+						Cliente clientenuevo = new Cliente(persona.getNick(), entrada, salida);
+						clientenuevo.iniciarEscuchar();
+						clientenuevo.iniciarRespuesta();
+						controlador.meterEnLobby(clientenuevo);
+						salas = controlador.getSalas();
+
 					} else
 						salida.enviarMensaje(null);
 
@@ -90,9 +98,6 @@ public class HiloServidor implements Runnable {
 				e.printStackTrace();
 			}
 
-			Cliente clientenuevo = new Cliente(persona.getNick(), entrada, salida);
-			clientenuevo.iniciarEscuchar();
-			clientenuevo.iniciarRespuesta();
 		}
 
 	}
