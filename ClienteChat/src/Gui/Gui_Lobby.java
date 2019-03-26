@@ -17,9 +17,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import Cliente.Cliente;
+import Cliente.ControladorCliente;
 import Cliente.Persona;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
+import Operacion.CrearSala;
 import Stream.FlujoDeSalida;
 
 import javax.swing.JButton;
@@ -35,6 +37,7 @@ public class Gui_Lobby extends JFrame {
 	private JScrollPane scroll;
 	private JButton botonCrear, botonUnirse;
 	private Object [] listaEtiquetasSalas;
+	private ControladorCliente controlador;
 	
 	public Gui_Lobby(FlujoDeSalida salida, Persona persona) {
 
@@ -74,7 +77,7 @@ public class Gui_Lobby extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				String nombreSala = JOptionPane.showInputDialog(null,"Ingrese el nombre de la sala");
-				salida.enviarMensaje(new Mensaje(Comandos.CREARSALA,nombreSala,persona));
+				salida.enviarMensaje(new Mensaje(new CrearSala(controlador.getBackupSalas(),controlador.getBackupClientesLobby()),nombreSala,persona));
 			}
 		});
 		

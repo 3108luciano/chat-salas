@@ -32,6 +32,12 @@ public class ControladorServidor implements Serializable {
 	public void setSalas(ArrayList<Sala> salas) {
 		this.salas = salas;
 	}
+	
+	
+
+	public ArrayList<Cliente> getClientesLobby() {
+		return clientesLobby;
+	}
 
 	public synchronized void meterEnLobby(Cliente cliente) {
 

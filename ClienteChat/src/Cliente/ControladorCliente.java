@@ -30,6 +30,11 @@ public class ControladorCliente implements Serializable, Runnable {
 	public ArrayList<Sala> getBackupSalas() {
 		return backupSalas;
 	}
+	
+
+	public ArrayList<String> getBackupClientesLobby() {
+		return backupClientesLobby;
+	}
 
 	public synchronized void manejarMensaje(Mensaje mensaje) {
 		peticion = (InterfazPeticion) mensaje.getCodigo();
