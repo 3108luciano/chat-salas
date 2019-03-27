@@ -12,8 +12,8 @@ import Stream.FlujoDeEntrada;
 
 public class ControladorCliente implements Serializable, Runnable {
 
-	private ArrayList<Sala> backupSalas;
-	private ArrayList<String> backupClientesLobby;
+	private static ArrayList<Sala> backupSalas;
+	private static ArrayList<String> backupClientesLobby;
 	private Gui_Lobby guiLobby;
 	private FlujoDeEntrada entrada;
 	private boolean corriendo = true;
@@ -27,12 +27,12 @@ public class ControladorCliente implements Serializable, Runnable {
 		backupClientesLobby = new ArrayList<String>();
 	}
 
-	public ArrayList<Sala> getBackupSalas() {
+	public static synchronized ArrayList<Sala> getBackupSalas() {
 		return backupSalas;
 	}
 	
 
-	public ArrayList<String> getBackupClientesLobby() {
+	public static synchronized ArrayList<String> getBackupClientesLobby() {
 		return backupClientesLobby;
 	}
 

@@ -34,10 +34,10 @@ public class CrearSala implements InterfazPeticion {
 		salas.add(sala);
 
 		for (Cliente c : clienteslobby)
-			c.getSalida().enviarMensaje(mensaje);
+			c.getSalida().enviarMensaje(new Mensaje(sala.getNroSala(), sala.getNombre(), persona.getNick()));
 
 		System.out.println("sala creada exitosamente");
-		
+
 	}
 
 	private Cliente buscarClienteCreador(String nombre) {

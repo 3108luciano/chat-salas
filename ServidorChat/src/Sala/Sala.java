@@ -81,5 +81,9 @@ public class Sala {
 		return nombre;
 	}
 
+	public int getNroSala() {
+		return nroSala;
+	}
+
 	
 }
