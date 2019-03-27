@@ -21,7 +21,6 @@ public class FlujoDeSalida implements Runnable {
 		try {
 			salida.writeObject(mensaje);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -12,8 +12,8 @@ import Sala.Sala;
 
 public class ControladorServidor implements Serializable {
 
-	private static ArrayList<Sala> salas;
-	private static ArrayList<Cliente> clientesLobby;
+	private  ArrayList<Sala> salas;
+	private  ArrayList<Cliente> clientesLobby;
 	private InterfazPeticion peticion;
 
 	public ControladorServidor() {
@@ -28,7 +28,7 @@ public class ControladorServidor implements Serializable {
 		peticion.tratarPeticion(mensaje);
 	}
 
-	public static synchronized ArrayList<Sala> getSalas() {
+	public  synchronized ArrayList<Sala> getSalas() {
 		return salas;
 	}
 
@@ -36,7 +36,7 @@ public class ControladorServidor implements Serializable {
 		this.salas = salas;
 	}
 
-	public static synchronized ArrayList<Cliente> getClientesLobby() {
+	public  synchronized ArrayList<Cliente> getClientesLobby() {
 		return clientesLobby;
 	}
 
@@ -55,6 +55,12 @@ public class ControladorServidor implements Serializable {
 			i++;
 
 		salas.get(i).meterClienteEnSala(cliente);
+		
+		for(Cliente c :clientesLobby)
+			System.out.println(c.getNick());
+		
+		for(Sala s : salas)
+			System.out.println(s.getNombre());
 
 	}
 }

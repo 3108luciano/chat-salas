@@ -25,7 +25,8 @@ public class HiloLogin implements Runnable {
 	private FlujoDeSalida salida;
 	private Cliente cliente;
 	private static Gui_Lobby gui_lobby;
-
+	private ControladorCliente controlador;
+	
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
 		this.panel = panel;
@@ -62,7 +63,7 @@ public class HiloLogin implements Runnable {
 						panel.setVisible(false);
 
 						gui_lobby = new Gui_Lobby(salida, persona);
-						ControladorCliente controlador = new ControladorCliente(gui_lobby, entrada);
+						controlador = new ControladorCliente(gui_lobby, entrada);
 
 						Sala lobby = new Sala(0, "Lobby");
 						lobby.meterClienteEnSala(persona.getNick());
@@ -94,7 +95,7 @@ public class HiloLogin implements Runnable {
 
 	}
 
-	public  static Gui_Lobby getGui_lobby() {
+	public static Gui_Lobby getGui_lobby() {
 		return gui_lobby;
 	}
 

@@ -8,15 +8,16 @@ public class Mensaje implements Serializable {
 	private Object codigo;
 	private Object datos;
 	private String cadena,cadena2;
-
+	private int nroSala;
 	public Mensaje(Object codigo, String cadena, Object datos) {
 		this.codigo = codigo;
 		this.cadena = cadena;
 		this.datos = datos;
 	}
 	
-	public Mensaje(int codigo,String cadena,String cadena2) {
+	public Mensaje(Object codigo,int nroSala,String cadena,String cadena2) {
 		this.codigo=codigo;
+		this.nroSala=nroSala;
 		this.cadena=cadena;
 		this.cadena2=cadena2;
 	}
@@ -36,5 +37,10 @@ public class Mensaje implements Serializable {
 	public String getCadena() {
 		return cadena;
 	}
+
+	public int getNroSala() {
+		return nroSala;
+	}
+	
 
 }

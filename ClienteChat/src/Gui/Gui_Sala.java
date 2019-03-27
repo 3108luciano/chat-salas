@@ -7,6 +7,9 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Sala.Sala;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -28,7 +31,8 @@ public class Gui_Sala extends JFrame {
 	private JTextField textMensaje;
 	private int nroSala;
 	private DefaultListModel<String> modeloClientes;
-
+	private Sala sala;
+	
 	public Gui_Sala(DefaultListModel<String> modeloClientes) {
 
 		setTitle("Sala");
@@ -82,4 +86,10 @@ public class Gui_Sala extends JFrame {
 	public void agregarClienteSala(String cliente) {
 		modeloClientes.addElement(cliente);
 	}
+
+	public void setSala(Sala sala) {
+		this.sala = sala;
+	}
+	
+	
 }

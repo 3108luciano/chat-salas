@@ -37,17 +37,21 @@ public class CrearSala implements InterfazPeticion {
 
 			Gui_Sala gui_sala = new Gui_Sala(modeloClientes);
 			gui_sala.setNombreSala(mensaje.getCadena());
-			gui_sala.setNroSala(mensaje.getCodigoSala());
+			gui_sala.setNroSala(mensaje.getNroSala());
 
-			salaNueva = new Sala(mensaje.getCodigoSala(), mensaje.getCadena(), gui_sala);
+			salaNueva = new Sala(mensaje.getNroSala(), mensaje.getCadena(), gui_sala);
 			salaNueva.meterClienteEnSala(mensaje.getCadena2());
-
+			backupsalas.add(salaNueva);
+			gui_sala.setSala(salaNueva);
+			
 			HiloOutputSala hilosalida = new HiloOutputSala(gui_sala, salaNueva);
-
+			salaNueva.setHilosala(hilosalida);
 			Thread hilo = new Thread(hilosalida);
 			hilo.start();
 			
-			backupsalas.add(salaNueva);
+			HiloLogin.getGui_lobby().actualizarTablaSalas(mensaje.getNroSala(), mensaje.getCadena());
+			
+			System.out.println("N° SALA : "+salaNueva.getNroSala()+" NOMBRE: "+salaNueva.getNombre()+" ha sido creada exitosamente");
 
 		}
 

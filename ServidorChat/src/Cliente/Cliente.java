@@ -41,11 +41,11 @@ public class Cliente extends JFrame implements Serializable {
 		hilo.start();
 	}
 
-	public FlujoDeSalida getSalida() {
+	public synchronized FlujoDeSalida getSalida() {
 		return salida;
 	}
 
-	public String getNick() {
+	public  synchronized String getNick() {
 		return nick;
 	}
 

@@ -1,7 +1,5 @@
 package Gui;
 
-
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -28,6 +26,7 @@ import Stream.FlujoDeSalida;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 
 public class Gui_Lobby extends JFrame {
@@ -38,11 +37,11 @@ public class Gui_Lobby extends JFrame {
 	private DefaultTableModel modelo;
 	private JScrollPane scroll;
 	private JButton botonCrear, botonUnirse;
-	private Object [] listaEtiquetasSalas;
+	private Object[] listaEtiquetasSalas;
 	private ControladorCliente controlador;
 	private JList<String> listaClientesConectados;
-	private DefaultListModel<String>modeloClientes;
-	
+	private DefaultListModel<String> modeloClientes;
+
 	public Gui_Lobby(FlujoDeSalida salida, Persona persona) {
 
 		setTitle("Salas");
@@ -54,7 +53,7 @@ public class Gui_Lobby extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		String[] etiquetas = { "N° Sala", "Nombre de sala", "N° Jugadores" };
+		String[] etiquetas = { "N° Sala", "Nombre de sala" };
 
 		modelo = new DefaultTableModel(new Object[][] {}, etiquetas);
 
@@ -62,7 +61,6 @@ public class Gui_Lobby extends JFrame {
 
 		tabla.getColumnModel().getColumn(0).setPreferredWidth(30);
 		tabla.getColumnModel().getColumn(1).setPreferredWidth(30);
-		tabla.getColumnModel().getColumn(2).setPreferredWidth(30);
 
 		scroll = new JScrollPane(tabla);
 		scroll.setBounds(10, 45, 414, 205);
@@ -79,50 +77,48 @@ public class Gui_Lobby extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				String nombreSala = JOptionPane.showInputDialog(null,"Ingrese el nombre de la sala");
-				salida.enviarMensaje(new Mensaje(Comandos.CREARSALA,nombreSala,persona));
+
+				String nombreSala = JOptionPane.showInputDialog(null, "Ingrese el nombre de la sala");
+				salida.enviarMensaje(new Mensaje(Comandos.CREARSALA, nombreSala, persona));
 			}
 		});
-		
-		
-		
+
 		botonUnirse = new JButton("Unirse");
 		botonUnirse.setBounds(216, 11, 89, 23);
 		contentPane.add(botonUnirse);
 
 		botonUnirse.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				String nombreSala = JOptionPane.showInputDialog(null,"Ingrese el nombre de la sala");
-				salida.enviarMensaje(new Mensaje(Comandos.UNIRSESALA,nombreSala,persona));
 
-				
+				String nombreSala = JOptionPane.showInputDialog(null, "Ingrese el nombre de la sala");
+				salida.enviarMensaje(new Mensaje(Comandos.UNIRSESALA, nombreSala, persona));
+
 			}
 		});
-		
+
 		modeloClientes = new DefaultListModel<String>();
 		listaClientesConectados = new JList<>(modeloClientes);
-		
+
 		contentPane.add(listaClientesConectados);
-		
+
 		setVisible(true);
 
 	}
 
-	public  synchronized JTable getTabla() {
-		return tabla;
+	public synchronized void actualizarTablaSalas(int nroSala, String nombre) {
+		Object[] cadena = { nroSala, nombre };
+		this.modelo.addRow(cadena);
+		modelo.fireTableDataChanged();
 	}
 
 	public synchronized void setTabla(JTable tabla) {
 		this.tabla = tabla;
 	}
 
-	public  synchronized JList<String> getListaClientesConectados() {
+	public synchronized JList<String> getListaClientesConectados() {
 		return listaClientesConectados;
 	}
 
-	
 }

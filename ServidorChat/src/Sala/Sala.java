@@ -9,12 +9,11 @@ import Servidor.HiloServidor;
 
 public class Sala {
 
-	private ArrayList<Cliente> clientesEnSala;
+	private  static ArrayList<Cliente> clientesEnSala;
 	private String nombre;
 	private int nroSala;
-	private int cantJugadores;
 	private static final AtomicInteger nroSalaIncremental = new AtomicInteger(1);
-	private int cantUsuarios;
+
 
 	public Sala(String nombre, boolean banderaLobby) {
 
@@ -84,6 +83,12 @@ public class Sala {
 	public int getNroSala() {
 		return nroSala;
 	}
+
+	public  synchronized static ArrayList<Cliente> getClientesEnSala() {
+		return clientesEnSala;
+	}
+
+	
 
 	
 }

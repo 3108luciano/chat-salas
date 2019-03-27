@@ -32,9 +32,9 @@ public class HiloServidor implements Runnable {
 	private Mensaje mensaje;
 	private boolean corriendo = true;
 	private boolean resultado;
-	private ControladorServidor controlador;
+	private  static ControladorServidor controlador;
 	private ArrayList<Sala> salas;
-
+	
 	public HiloServidor(Socket socket) {
 
 		this.socket = socket;
@@ -101,4 +101,10 @@ public class HiloServidor implements Runnable {
 		}
 
 	}
+
+	public static ControladorServidor getControlador() {
+		return controlador;
+	}
+	
+	
 }

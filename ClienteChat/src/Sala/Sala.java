@@ -3,27 +3,29 @@ package Sala;
 import java.util.ArrayList;
 
 import Cliente.Cliente;
+import Cliente.HiloOutputSala;
 import Gui.Gui_Sala;
 
 public class Sala {
 
 	private String nombre;
 	private int nroSala;
-	private int cantJugadores;
 	private ArrayList<String> Clientes;
 	private Gui_Sala gui_sala;
+	private HiloOutputSala hilosala;
 
-	public Sala(int nroSala, String nombre,Gui_Sala gui_sala) {
+	public Sala(int nroSala, String nombre, Gui_Sala gui_sala) {
 		this.nroSala = nroSala;
 		this.nombre = nombre;
-		this.gui_sala=gui_sala;
+		this.gui_sala = gui_sala;
 		Clientes = new ArrayList<String>();
 
 	}
 
-	public Sala(int nroSala, String nombre){
-		this.nroSala=nroSala;
-		this.nombre=nombre;
+	public Sala(int nroSala, String nombre) {
+		this.nroSala = nroSala;
+		this.nombre = nombre;
+		Clientes = new ArrayList<String>();
 	}
 
 	public void meterClienteEnSala(String cliente) {
@@ -68,6 +70,17 @@ public class Sala {
 		return true;
 	}
 
-	
+	public void setHilosala(HiloOutputSala hilosala) {
+		this.hilosala = hilosala;
+	}
 
+	public String getNombre() {
+		return nombre;
+	}
+
+	public int getNroSala() {
+		return nroSala;
+	}
+
+	
 }
