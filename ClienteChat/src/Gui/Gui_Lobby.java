@@ -77,7 +77,7 @@ public class Gui_Lobby extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				String nombreSala = JOptionPane.showInputDialog(null,"Ingrese el nombre de la sala");
-				salida.enviarMensaje(new Mensaje(new CrearSala(controlador.getBackupSalas(),controlador.getBackupClientesLobby()),nombreSala,persona));
+				salida.enviarMensaje(new Mensaje(Comandos.CREARSALA,nombreSala,persona));
 			}
 		});
 		

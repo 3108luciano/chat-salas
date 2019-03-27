@@ -60,14 +60,14 @@ public class HiloLogin implements Runnable {
 						Gui_Lobby guiLobby = new Gui_Lobby(salida, persona);
 						ControladorCliente controlador = new ControladorCliente(guiLobby, entrada);
 
-						Sala lobby = new Sala(-1, "Lobby", 1);
+						Sala lobby = new Sala(0, "Lobby", 1);
 						lobby.meterClienteEnSala(persona.getNick());
 
 						controlador.getBackupSalas().add(lobby);
 
 						
 						Thread hiloe = new Thread(controlador); // recibe y envia peticiones sobre salas en el lobby
-						hiloe.start();
+				 		hiloe.start();
 
 						HiloLobbySalida hilolobbysalida = new HiloLobbySalida();
 						Thread hilos = new Thread(hilolobbysalida);
