@@ -20,10 +20,16 @@ import java.awt.*;
 public class Cliente extends JFrame implements Serializable {
 
 	private static final long serialVersionUID = 7799656478674716638L;
-	private String nick;
+	private static String nick;
 
 	public Cliente(String nick) {
 		this.nick = nick;
 	}
+
+	public static String getNick() {
+		return nick;
+	}
+	
+	
 
 }

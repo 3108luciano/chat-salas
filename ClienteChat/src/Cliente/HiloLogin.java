@@ -23,6 +23,8 @@ public class HiloLogin implements Runnable {
 	private Persona persona;
 	private FlujoDeEntrada entrada;
 	private FlujoDeSalida salida;
+	private Cliente cliente;
+	private static Gui_Lobby gui_lobby;
 
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
@@ -54,20 +56,21 @@ public class HiloLogin implements Runnable {
 					persona = (Persona) resultado.getDatos();
 
 					if (resultado != null) {
+
+						cliente = new Cliente(persona.getNick());
 						System.out.println("el usuario: " + persona.getNick() + " ha iniciado sesion.");
 						panel.setVisible(false);
 
-						Gui_Lobby guiLobby = new Gui_Lobby(salida, persona);
-						ControladorCliente controlador = new ControladorCliente(guiLobby, entrada);
+						gui_lobby = new Gui_Lobby(salida, persona);
+						ControladorCliente controlador = new ControladorCliente(gui_lobby, entrada);
 
-						Sala lobby = new Sala(0, "Lobby", 1);
+						Sala lobby = new Sala(0, "Lobby");
 						lobby.meterClienteEnSala(persona.getNick());
 
 						controlador.getBackupSalas().add(lobby);
 
-						
 						Thread hiloe = new Thread(controlador); // recibe y envia peticiones sobre salas en el lobby
-				 		hiloe.start();
+						hiloe.start();
 
 						HiloLobbySalida hilolobbysalida = new HiloLobbySalida();
 						Thread hilos = new Thread(hilolobbysalida);
@@ -89,6 +92,10 @@ public class HiloLogin implements Runnable {
 
 		}
 
+	}
+
+	public  static Gui_Lobby getGui_lobby() {
+		return gui_lobby;
 	}
 
 }

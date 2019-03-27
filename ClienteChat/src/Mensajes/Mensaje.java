@@ -10,8 +10,9 @@ public class Mensaje implements Serializable {
 	private static final long serialVersionUID = 2928832563874494113L;
 	private Object codigo;
 	private Object datos;
-	private String cadena;
-
+	private String cadena,cadena2;
+	private int codigoSala;
+	
 	public Mensaje(Object codigo, Object datos) {
 		this.codigo = codigo;
 		this.datos = datos;
@@ -27,6 +28,12 @@ public class Mensaje implements Serializable {
 		this.datos=datos;
 	}
 
+	public Mensaje(int codigo,String cadena,String cadena2) {
+		this.codigoSala=codigo;
+		this.cadena=cadena;
+		this.cadena2=cadena2;
+	}
+	
 	public Object getCodigo() {
 		return codigo;
 	}
@@ -35,4 +42,21 @@ public class Mensaje implements Serializable {
 		return datos;
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getCadena() {
+		return cadena;
+	}
+
+	public String getCadena2() {
+		return cadena2;
+	}
+
+	public int getCodigoSala() {
+		return codigoSala;
+	}
+
+	
 }

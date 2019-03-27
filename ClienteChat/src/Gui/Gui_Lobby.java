@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,6 +25,7 @@ import Mensajes.Mensaje;
 import Operacion.CrearSala;
 import Stream.FlujoDeSalida;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -38,6 +40,8 @@ public class Gui_Lobby extends JFrame {
 	private JButton botonCrear, botonUnirse;
 	private Object [] listaEtiquetasSalas;
 	private ControladorCliente controlador;
+	private JList<String> listaClientesConectados;
+	private DefaultListModel<String>modeloClientes;
 	
 	public Gui_Lobby(FlujoDeSalida salida, Persona persona) {
 
@@ -98,6 +102,12 @@ public class Gui_Lobby extends JFrame {
 				
 			}
 		});
+		
+		modeloClientes = new DefaultListModel<String>();
+		listaClientesConectados = new JList<>(modeloClientes);
+		
+		contentPane.add(listaClientesConectados);
+		
 		setVisible(true);
 
 	}
@@ -108,6 +118,10 @@ public class Gui_Lobby extends JFrame {
 
 	public synchronized void setTabla(JTable tabla) {
 		this.tabla = tabla;
+	}
+
+	public  synchronized JList<String> getListaClientesConectados() {
+		return listaClientesConectados;
 	}
 
 	

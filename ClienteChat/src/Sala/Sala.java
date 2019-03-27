@@ -13,12 +13,17 @@ public class Sala {
 	private ArrayList<String> Clientes;
 	private Gui_Sala gui_sala;
 
-	public Sala(int nroSala, String nombre, int cantJugadores) {
+	public Sala(int nroSala, String nombre,Gui_Sala gui_sala) {
 		this.nroSala = nroSala;
 		this.nombre = nombre;
-		this.cantJugadores = cantJugadores;
+		this.gui_sala=gui_sala;
 		Clientes = new ArrayList<String>();
 
+	}
+
+	public Sala(int nroSala, String nombre){
+		this.nroSala=nroSala;
+		this.nombre=nombre;
 	}
 
 	public void meterClienteEnSala(String cliente) {
