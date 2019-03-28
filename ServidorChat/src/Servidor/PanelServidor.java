@@ -12,6 +12,8 @@ import Mensajes.Comandos;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JLabel;
 import java.awt.Font;
 
@@ -24,14 +26,19 @@ public class PanelServidor extends JFrame {
 	private Servidor servidor;
 
 	public static void main(String[] args) {
+		
+		//toma el aspecto del sistema//
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
 
-		EventQueue.invokeLater(new Runnable() {
+			e.printStackTrace();
+		}
 
-			public void run() {
-				PanelServidor frame = new PanelServidor();
-				frame.setVisible(true);
-			}
-		});
+		PanelServidor frame = new PanelServidor();
+		frame.setVisible(true);
+
 	}
 
 	public PanelServidor() {
@@ -54,7 +61,7 @@ public class PanelServidor extends JFrame {
 		lblConversacion.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		lblConversacion.setBounds(161, 11, 89, 14);
 		contentPane.add(lblConversacion);
-		
+
 		servidor = new Servidor(Comandos.PUERTO);
 		Thread hilo = new Thread(servidor);
 		hilo.start();

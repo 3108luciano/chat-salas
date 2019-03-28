@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -26,6 +27,9 @@ import Stream.FlujoDeSalida;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -61,6 +65,7 @@ public class Gui_Lobby extends JFrame {
 
 		modeloSalas = new DefaultListModel<String>();
 		listaSalasDisponibles = new JList<>(modeloSalas);
+		listaSalasDisponibles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		scroll = new JScrollPane(listaSalasDisponibles);
 		scroll.setBounds(10, 45, 258, 205);
@@ -68,7 +73,7 @@ public class Gui_Lobby extends JFrame {
 		contentPane.add(scroll);
 
 		botonCrear = new JButton("Crear");
-		botonCrear.setBounds(92, 11, 89, 23);
+		botonCrear.setBounds(98, 11, 89, 23);
 		contentPane.add(botonCrear);
 
 		botonCrear.addActionListener(new ActionListener() {
@@ -81,23 +86,23 @@ public class Gui_Lobby extends JFrame {
 			}
 		});
 
-		botonUnirse = new JButton("Unirse");
-		botonUnirse.setBounds(216, 11, 89, 23);
-		contentPane.add(botonUnirse);
-
-		botonUnirse.addActionListener(new ActionListener() {
+		listaSalasDisponibles.addMouseListener(new MouseAdapter() {
 
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void mouseClicked(MouseEvent e) {
 
-				String nombreSala = JOptionPane.showInputDialog(null, "Ingrese el nombre de la sala");
-				salida.enviarMensaje(new Mensaje(Comandos.UNIRSESALA, nombreSala, persona));
+				if (e.getClickCount() == 2) {
 
+					int nroSala = listaSalasDisponibles.getSelectedIndex();
+					
+					salida.enviarMensaje(new Mensaje(Comandos.UNIRSESALA,nroSala,persona));
+
+				}
 			}
 		});
 
 		JLabel lblLobby = new JLabel("Lobby");
-		lblLobby.setBounds(333, 25, 52, 14);
+		lblLobby.setBounds(325, 15, 52, 14);
 		contentPane.add(lblLobby);
 
 		setVisible(true);
@@ -110,7 +115,7 @@ public class Gui_Lobby extends JFrame {
 		listaSalasDisponibles.setModel(modeloSalas);
 
 	}
-	
+
 	public synchronized void actualizarTablaClientesLobby(String cliente) {
 		modeloClientes.addElement(cliente);
 		listaClientesConectados.setModel(modeloClientes);

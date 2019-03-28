@@ -51,11 +51,14 @@ public class Sala {
 			c.getSalida().enviarMensaje(mensaje);
 	}
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+		result = prime * result + nroSala;
 		return result;
 	}
 
@@ -72,6 +75,8 @@ public class Sala {
 			if (other.nombre != null)
 				return false;
 		} else if (!nombre.equals(other.nombre))
+			return false;
+		if (nroSala != other.nroSala)
 			return false;
 		return true;
 	}

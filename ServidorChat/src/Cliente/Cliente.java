@@ -49,4 +49,42 @@ public class Cliente extends JFrame implements Serializable {
 		return nick;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((entrada == null) ? 0 : entrada.hashCode());
+		result = prime * result + ((nick == null) ? 0 : nick.hashCode());
+		result = prime * result + ((salida == null) ? 0 : salida.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (entrada == null) {
+			if (other.entrada != null)
+				return false;
+		} else if (!entrada.equals(other.entrada))
+			return false;
+		if (nick == null) {
+			if (other.nick != null)
+				return false;
+		} else if (!nick.equals(other.nick))
+			return false;
+		if (salida == null) {
+			if (other.salida != null)
+				return false;
+		} else if (!salida.equals(other.salida))
+			return false;
+		return true;
+	}
+
+	
 }

@@ -13,15 +13,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-
 
 import Cliente.Cliente;
 import Cliente.HiloReconexion;
 import Cliente.Persona;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
-
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,17 +40,22 @@ public class Gui_Login extends JFrame implements Serializable {
 	private String contraseña;
 	private ObjectOutputStream salida;
 	private Persona persona;
-	private  boolean flagBotonLogin;
+	private boolean flagBotonLogin;
 
 	public static void main(String[] args) {
 
-	
-			
-					Gui_Login panelLoguin = new Gui_Login();
-					panelLoguin.setVisible(true);
-					crearHiloReconexion(panelLoguin);
-				
-		
+		//toma el aspecto del sistema
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+
+			e.printStackTrace();
+		}
+
+		Gui_Login panelLoguin = new Gui_Login();
+		panelLoguin.setVisible(true);
+		crearHiloReconexion(panelLoguin);
 
 	}
 
@@ -94,7 +99,7 @@ public class Gui_Login extends JFrame implements Serializable {
 							JOptionPane.WARNING_MESSAGE);
 				} else {
 					persona = new Persona(getTextfieldEmail(), getTextfieldContraseña());
-					flagBotonLogin=true;
+					flagBotonLogin = true;
 
 				}
 
@@ -133,7 +138,7 @@ public class Gui_Login extends JFrame implements Serializable {
 		return contraseña;
 	}
 
-	public  synchronized boolean isFlagBotonLogin() {
+	public synchronized boolean isFlagBotonLogin() {
 		return flagBotonLogin;
 	}
 
