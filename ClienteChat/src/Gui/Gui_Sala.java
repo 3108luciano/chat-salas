@@ -27,13 +27,13 @@ public class Gui_Sala extends JFrame {
 	private JTextArea conversacion;
 	private JLabel nombreSala;
 	private JList listaClientes;
-	private JScrollPane scrollPane;
+	private JScrollPane scrollPane, scrollClientes;
 	private JTextField textMensaje;
 	private int nroSala;
 	private DefaultListModel<String> modeloClientes;
 	private Sala sala;
-	
-	public Gui_Sala(DefaultListModel<String> modeloClientes) {
+
+	public Gui_Sala() {
 
 		setTitle("Sala");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,27 +52,35 @@ public class Gui_Sala extends JFrame {
 		contentPane.add(botonEnviar);
 
 		conversacion = new JTextArea();
-
-		nombreSala = new JLabel("");
-		nombreSala.setBounds(151, 11, 46, 14);
-		contentPane.add(nombreSala);
+		conversacion.setEditable(false);
 
 		scrollPane = new JScrollPane(conversacion);
 		scrollPane.setBounds(42, 46, 282, 138);
 		contentPane.add(scrollPane);
+
+		nombreSala = new JLabel("");
+		nombreSala.setBounds(151, 11, 46, 14);
+		contentPane.add(nombreSala);
 
 		textMensaje = new JTextField();
 		textMensaje.setBounds(42, 213, 199, 37);
 		contentPane.add(textMensaje);
 		textMensaje.setColumns(10);
 
-		modeloClientes = new DefaultListModel<String>();
+		this.modeloClientes = new DefaultListModel<String>();
 
 		listaClientes = new JList<>(modeloClientes);
-		listaClientes.setBounds(347, 111, 57, -29);
 
-		contentPane.add(listaClientes);
+		scrollClientes = new JScrollPane(listaClientes);
+		scrollClientes.setBounds(350, 50, 57, 85);
+		contentPane.add(scrollClientes);
+
 		setVisible(true);
+	}
+
+	public synchronized void actualizarListClientes(String cliente) {
+		this.modeloClientes.addElement(cliente);
+		this.listaClientes.setModel(modeloClientes);
 	}
 
 	public void setNombreSala(String nombreSala) {
@@ -90,6 +98,5 @@ public class Gui_Sala extends JFrame {
 	public void setSala(Sala sala) {
 		this.sala = sala;
 	}
-	
-	
+
 }
