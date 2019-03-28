@@ -49,7 +49,7 @@ public class Servidor implements Runnable {
 			}
 		}
 
-		try {
+		try { 	
 			serversocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

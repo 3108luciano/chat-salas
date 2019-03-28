@@ -28,19 +28,18 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
 public class Gui_Lobby extends JFrame {
 
 	private JPanel contentPane;
-	private JTable tabla;
-	private String[] columnas = { "N° SALA", "NOMBRE" };
-	private DefaultTableModel modelo;
-	private JScrollPane scroll;
+	private DefaultListModel<String> modeloSalas;
+	private DefaultListModel<String> modeloClientes;
+	private JScrollPane scroll, scrollclientes;
 	private JButton botonCrear, botonUnirse;
-	private Object[] listaEtiquetasSalas;
 	private ControladorCliente controlador;
 	private JList<String> listaClientesConectados;
-	private DefaultListModel<String> modeloClientes;
+	private JList<String> listaSalasDisponibles;
 
 	public Gui_Lobby(FlujoDeSalida salida, Persona persona) {
 
@@ -53,21 +52,20 @@ public class Gui_Lobby extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		String[] etiquetas = { "N° Sala", "Nombre de sala" };
+		modeloClientes = new DefaultListModel<String>();
+		listaClientesConectados = new JList<>(modeloClientes);
 
-		modelo = new DefaultTableModel(new Object[][] {}, etiquetas);
+		scrollclientes = new JScrollPane(listaClientesConectados);
+		scrollclientes.setBounds(278, 45, 146, 187);
+		contentPane.add(scrollclientes);
 
-		tabla = new JTable(modelo);
+		modeloSalas = new DefaultListModel<String>();
+		listaSalasDisponibles = new JList<>(modeloSalas);
 
-		tabla.getColumnModel().getColumn(0).setPreferredWidth(30);
-		tabla.getColumnModel().getColumn(1).setPreferredWidth(30);
-
-		scroll = new JScrollPane(tabla);
-		scroll.setBounds(10, 45, 414, 205);
+		scroll = new JScrollPane(listaSalasDisponibles);
+		scroll.setBounds(10, 45, 258, 205);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		contentPane.add(scroll);
-
-		modelo = (DefaultTableModel) tabla.getModel();
 
 		botonCrear = new JButton("Crear");
 		botonCrear.setBounds(92, 11, 89, 23);
@@ -98,27 +96,27 @@ public class Gui_Lobby extends JFrame {
 			}
 		});
 
-		modeloClientes = new DefaultListModel<String>();
-		listaClientesConectados = new JList<>(modeloClientes);
-
-		contentPane.add(listaClientesConectados);
+		JLabel lblLobby = new JLabel("Lobby");
+		lblLobby.setBounds(333, 25, 52, 14);
+		contentPane.add(lblLobby);
 
 		setVisible(true);
 
 	}
 
-	public synchronized void actualizarTablaSalas(int nroSala, String nombre) {
-		Object[] cadena = { nroSala, nombre };
-		this.modelo.addRow(cadena);
-		modelo.fireTableDataChanged();
-	}
+	public synchronized void actualizarTablaSalas(String cliente, String nombre) {
 
-	public synchronized void setTabla(JTable tabla) {
-		this.tabla = tabla;
+		modeloSalas.addElement(nombre);
+		listaSalasDisponibles.setModel(modeloSalas);
+
+	}
+	
+	public synchronized void actualizarTablaClientesLobby(String cliente) {
+		modeloClientes.addElement(cliente);
+		listaClientesConectados.setModel(modeloClientes);
 	}
 
 	public synchronized JList<String> getListaClientesConectados() {
 		return listaClientesConectados;
 	}
-
 }

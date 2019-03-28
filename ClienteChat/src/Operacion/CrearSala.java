@@ -29,8 +29,8 @@ public class CrearSala implements InterfazPeticion {
 
 		Sala salaNueva;
 		gui_lobby = HiloLogin.getGui_lobby();
-		backupsalas=HiloLogin.getControlador().getBackupSalas();
-		
+		backupsalas = HiloLogin.getControlador().getBackupSalas();
+
 		if (mensaje.getCadena2().equals(Cliente.getNick())) {
 
 			DefaultListModel<String> modeloClientes = (DefaultListModel<String>) gui_lobby.getListaClientesConectados()
@@ -44,15 +44,16 @@ public class CrearSala implements InterfazPeticion {
 			salaNueva.meterClienteEnSala(mensaje.getCadena2());
 			backupsalas.add(salaNueva);
 			gui_sala.setSala(salaNueva);
-			
+
 			HiloOutputSala hilosalida = new HiloOutputSala(gui_sala, salaNueva);
 			salaNueva.setHilosala(hilosalida);
 			Thread hilo = new Thread(hilosalida);
 			hilo.start();
-			
-			HiloLogin.getGui_lobby().actualizarTablaSalas(mensaje.getNroSala(), mensaje.getCadena());
-			
-			System.out.println("N° SALA : "+salaNueva.getNroSala()+" NOMBRE: "+salaNueva.getNombre()+" ha sido creada exitosamente");
+
+			HiloLogin.getGui_lobby().actualizarTablaSalas(mensaje.getCadena2(),mensaje.getCadena());
+
+			System.out.println("N° SALA : " + salaNueva.getNroSala() + " NOMBRE: " + salaNueva.getNombre()
+					+ " ha sido creada exitosamente");
 
 		}
 

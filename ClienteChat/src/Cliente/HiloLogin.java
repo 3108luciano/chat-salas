@@ -63,6 +63,7 @@ public class HiloLogin implements Runnable {
 						panel.setVisible(false);
 
 						gui_lobby = new Gui_Lobby(salida, persona);
+						gui_lobby.actualizarTablaClientesLobby(cliente.getNick());
 						controlador = new ControladorCliente(gui_lobby, entrada);
 
 						Sala lobby = new Sala(0, "Lobby");
