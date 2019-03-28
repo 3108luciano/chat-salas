@@ -29,7 +29,8 @@ public class CrearSala implements InterfazPeticion {
 
 		Sala salaNueva;
 		gui_lobby = HiloLogin.getGui_lobby();
-
+		backupsalas=HiloLogin.getControlador().getBackupSalas();
+		
 		if (mensaje.getCadena2().equals(Cliente.getNick())) {
 
 			DefaultListModel<String> modeloClientes = (DefaultListModel<String>) gui_lobby.getListaClientesConectados()

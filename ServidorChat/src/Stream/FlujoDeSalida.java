@@ -35,4 +35,14 @@ public class FlujoDeSalida implements Runnable {
 
 	}
 
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+	
+	
 }

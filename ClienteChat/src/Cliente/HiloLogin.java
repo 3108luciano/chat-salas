@@ -25,7 +25,7 @@ public class HiloLogin implements Runnable {
 	private FlujoDeSalida salida;
 	private Cliente cliente;
 	private static Gui_Lobby gui_lobby;
-	private ControladorCliente controlador;
+	private static ControladorCliente controlador;
 	
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
@@ -98,5 +98,10 @@ public class HiloLogin implements Runnable {
 	public static Gui_Lobby getGui_lobby() {
 		return gui_lobby;
 	}
+
+	public  static ControladorCliente getControlador() {
+		return controlador;
+	}
+
 
 }

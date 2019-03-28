@@ -35,6 +35,7 @@ public class CrearSala implements InterfazPeticion {
 		sala.meterClienteEnSala(cliente);
 		salas.add(sala);
 		
+	
 
 		this.clienteslobby = HiloServidor.getControlador().getClientesLobby();
 		for (Cliente c : clienteslobby ) {

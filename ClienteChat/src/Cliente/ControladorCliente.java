@@ -52,10 +52,7 @@ public class ControladorCliente implements Serializable, Runnable {
 				if (mensaje != null) {
 					System.out.println("peticion recibida");
 					manejarMensaje(mensaje);
-
-				} else {
-					corriendo = false;
-				}
+				} 
 			} catch (ClassNotFoundException | IOException e) {
 				corriendo = false;
 				e.printStackTrace();
