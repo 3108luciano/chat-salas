@@ -10,15 +10,13 @@ import java.net.Socket;
 
 import javax.swing.JPanel;
 
-
 import Gui.Gui_Login;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
 
 public class HiloReconexion implements Runnable {
 
-	// private FlujoDeEntrada entrada;
-	// private FlujoDeSalida salida;
+	
 	private Socket socket;
 	private Cliente persona;
 	private Gui_Login panel;
@@ -43,21 +41,20 @@ public class HiloReconexion implements Runnable {
 
 				if (socketNuevo != null && socketNuevo.isConnected()) {
 					activado = false; // lo pongo en falso para que no siga intentando establecer una conexion
-					this.socket=socketNuevo;
-					HiloLogin login = new HiloLogin(socket,panel);
-					
+					this.socket = socketNuevo;
+					HiloLogin login = new HiloLogin(socket, panel);
+
 					Thread hilo = new Thread(login);
 					hilo.start();
 				} else {
 					Thread.sleep(2000);// cada 2 segundos intento conectarme nuevamente
 				}
 			} catch (IOException | InterruptedException e) {
-				
+
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 	}
 
 }

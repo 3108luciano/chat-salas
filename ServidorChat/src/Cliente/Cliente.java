@@ -44,6 +44,11 @@ public class Cliente extends JFrame implements Serializable {
 	public synchronized FlujoDeSalida getSalida() {
 		return salida;
 	}
+	
+
+	public synchronized FlujoDeEntrada getEntrada() {
+		return entrada;
+	}
 
 	public  synchronized String getNick() {
 		return nick;

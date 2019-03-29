@@ -3,6 +3,7 @@ package Cliente;
 import java.io.IOException;
 
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
@@ -26,6 +27,7 @@ public class HiloLogin implements Runnable {
 	private Cliente cliente;
 	private static Gui_Lobby gui_lobby;
 	private static ControladorCliente controlador;
+	private ArrayList<Sala>salas;
 	
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
@@ -65,18 +67,19 @@ public class HiloLogin implements Runnable {
 						gui_lobby = new Gui_Lobby(salida, persona);
 						gui_lobby.actualizarTablaClientesLobby(cliente.getNick());
 						controlador = new ControladorCliente(gui_lobby, entrada);
-
-						Sala lobby = new Sala(0, "Lobby");
-						lobby.meterClienteEnSala(persona.getNick());
-
-						controlador.getBackupSalas().add(lobby);
+						salas=controlador.getBackupSalas();
+						
+						if (salas.size()==0) {
+							Sala lobby = new Sala(0, "Lobby");
+							lobby.meterClienteEnSala(persona.getNick());
+							controlador.getBackupSalas().add(lobby);
+							
+						} else {
+							controlador.getBackupSalas().get(0).meterClienteEnSala(persona.getNick());
+						}
 
 						Thread hiloe = new Thread(controlador); // recibe y envia peticiones sobre salas en el lobby
 						hiloe.start();
-
-						HiloLobbySalida hilolobbysalida = new HiloLobbySalida();
-						Thread hilos = new Thread(hilolobbysalida);
-						hilos.start();
 
 					} else {
 						corriendo = false;
@@ -100,9 +103,8 @@ public class HiloLogin implements Runnable {
 		return gui_lobby;
 	}
 
-	public  static ControladorCliente getControlador() {
+	public static ControladorCliente getControlador() {
 		return controlador;
 	}
-
 
 }

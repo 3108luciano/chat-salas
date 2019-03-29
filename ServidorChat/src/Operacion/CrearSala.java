@@ -30,6 +30,8 @@ public class CrearSala implements InterfazPeticion {
 		Persona persona = (Persona) mensaje.getDatos();
 		Cliente cliente = buscarClienteCreador(persona.getNick());
 
+		
+		
 		Sala sala = new Sala(mensaje.getCadena(), true);
 
 		sala.meterClienteEnSala(cliente);

@@ -12,15 +12,22 @@ import Sala.Sala;
 
 public class ControladorServidor implements Serializable {
 
-	private  ArrayList<Sala> salas;
-	private  ArrayList<Cliente> clientesLobby;
+	private ArrayList<Sala> salas;
+	private ArrayList<Cliente> clientesLobby;
 	private InterfazPeticion peticion;
+	private static ControladorServidor instancia = null;
 
-	public ControladorServidor() {
+	private ControladorServidor() {
 		salas = new ArrayList<Sala>();
 		clientesLobby = new ArrayList<Cliente>();
 		salas.add(new Sala("Lobby"));
 
+	}
+
+	public synchronized static ControladorServidor getInstancia() {
+		if (instancia == null)
+			instancia = new ControladorServidor();
+		return instancia;
 	}
 
 	public synchronized void manejarMensaje(Mensaje mensaje) {
@@ -28,7 +35,7 @@ public class ControladorServidor implements Serializable {
 		peticion.tratarPeticion(mensaje);
 	}
 
-	public  synchronized ArrayList<Sala> getSalas() {
+	public synchronized ArrayList<Sala> getSalas() {
 		return salas;
 	}
 
@@ -36,7 +43,7 @@ public class ControladorServidor implements Serializable {
 		this.salas = salas;
 	}
 
-	public  synchronized ArrayList<Cliente> getClientesLobby() {
+	public synchronized ArrayList<Cliente> getClientesLobby() {
 		return clientesLobby;
 	}
 
@@ -55,12 +62,10 @@ public class ControladorServidor implements Serializable {
 			i++;
 
 		salas.get(i).meterClienteEnSala(cliente);
-		
-		for(Cliente c :clientesLobby)
+
+		System.out.println("CLIENTES EN LOBBY");
+		for (Cliente c : clientesLobby)
 			System.out.println(c.getNick());
-		
-		for(Sala s : salas)
-			System.out.println(s.getNombre());
 
 	}
 }

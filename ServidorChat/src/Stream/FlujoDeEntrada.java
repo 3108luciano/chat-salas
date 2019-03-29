@@ -27,7 +27,7 @@ public class FlujoDeEntrada implements Runnable {
 	@Override
 	public void run() {
 
-		ControladorServidor controlador = new ControladorServidor();
+		ControladorServidor controlador = ControladorServidor.getInstancia();
 
 		while (true) {
 

@@ -3,29 +3,33 @@ package Servidor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 
+import Cliente.Cliente;
 import Mensajes.Comandos;
+import Sala.Sala;
 
 public class Servidor implements Runnable {
 
 	private ServerSocket serversocket;
 	private PanelServidor panel;
 	private static int idCliente;
-	private LinkedList<HiloServidor> Clientes;
 	private boolean corriendo = true;
 	private int nrocliente;
 	private int puerto;
+	private HiloServidor hiloServidor;
 
 	public Servidor(int puerto) {
 		this.puerto = puerto;
 		try {
 			serversocket = new ServerSocket(this.puerto);
+
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 	}
@@ -39,7 +43,7 @@ public class Servidor implements Runnable {
 
 			try {
 				socketNuevo = serversocket.accept();
-				HiloServidor hiloServidor = new HiloServidor(socketNuevo);
+				hiloServidor = new HiloServidor(socketNuevo);
 				Thread hilo = new Thread(hiloServidor);
 				hilo.start();
 			} catch (IOException e) {
@@ -49,7 +53,7 @@ public class Servidor implements Runnable {
 			}
 		}
 
-		try { 	
+		try {
 			serversocket.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -57,4 +61,5 @@ public class Servidor implements Runnable {
 		}
 
 	}
+
 }

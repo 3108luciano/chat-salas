@@ -32,9 +32,9 @@ public class HiloServidor implements Runnable {
 	private Mensaje mensaje;
 	private boolean corriendo = true;
 	private boolean resultado;
-	private  static ControladorServidor controlador;
+	private static ControladorServidor controlador;
 	private ArrayList<Sala> salas;
-	
+
 	public HiloServidor(Socket socket) {
 
 		this.socket = socket;
@@ -42,7 +42,7 @@ public class HiloServidor implements Runnable {
 		try {
 			salida = new FlujoDeSalida(this.socket);
 			entrada = new FlujoDeEntrada(this.socket);
-			controlador = new ControladorServidor();
+			controlador = ControladorServidor.getInstancia();
 
 		} catch (IOException e) {
 
@@ -69,6 +69,8 @@ public class HiloServidor implements Runnable {
 	@Override
 	public void run() {
 
+		Cliente clientenuevo = null;
+
 		while (corriendo) {
 
 			corriendo = false;
@@ -83,7 +85,7 @@ public class HiloServidor implements Runnable {
 						persona.setNick(lista_de_cosas.get(0)[2].toString());
 						salida.enviarMensaje(new Mensaje(persona));
 
-						Cliente clientenuevo = new Cliente(persona.getNick(), entrada, salida);
+						clientenuevo = new Cliente(persona.getNick(), entrada, salida);
 						clientenuevo.iniciarEscuchar();
 						clientenuevo.iniciarRespuesta();
 						controlador.meterEnLobby(clientenuevo);
@@ -94,8 +96,9 @@ public class HiloServidor implements Runnable {
 
 				}
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
+				corriendo = false;
 				e.printStackTrace();
+
 			}
 
 		}
@@ -105,6 +108,5 @@ public class HiloServidor implements Runnable {
 	public static ControladorServidor getControlador() {
 		return controlador;
 	}
-	
-	
+
 }
