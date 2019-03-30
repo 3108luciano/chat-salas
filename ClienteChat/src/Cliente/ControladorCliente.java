@@ -30,10 +30,14 @@ public class ControladorCliente implements Serializable, Runnable {
 	public static synchronized ArrayList<Sala> getBackupSalas() {
 		return backupSalas;
 	}
-	
 
 	public static synchronized ArrayList<String> getBackupClientesLobby() {
 		return backupClientesLobby;
+	}
+
+	public static synchronized void agregarClienteLobby(String cliente) {
+		if (!backupClientesLobby.contains(cliente))
+			ControladorCliente.backupClientesLobby.add(cliente);
 	}
 
 	public synchronized void manejarMensaje(Mensaje mensaje) {
@@ -52,7 +56,7 @@ public class ControladorCliente implements Serializable, Runnable {
 				if (mensaje != null) {
 					System.out.println("peticion recibida");
 					manejarMensaje(mensaje);
-				} 
+				}
 			} catch (ClassNotFoundException | IOException e) {
 				corriendo = false;
 				e.printStackTrace();

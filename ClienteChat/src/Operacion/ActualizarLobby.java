@@ -11,18 +11,20 @@ import Mensajes.Mensaje;
 public class ActualizarLobby implements InterfazPeticion {
 
 	private static final long serialVersionUID = 2958832563874494113L;
-	private ArrayList<String> clientes ;
+	private ArrayList<String> clientes;
 
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
 
-		if(clientes==null) {
-			clientes= new ArrayList<String>();
+		if (clientes == null) {
+			clientes = new ArrayList<String>();
 		}
 		String nickCliente = mensaje.getCadena();
 		clientes.add(nickCliente);
+		ControladorCliente.agregarClienteLobby(nickCliente);
+		ControladorCliente.getBackupSalas().get(0).meterClienteEnSala(nickCliente);
 		Gui_Lobby.agregarCliente(nickCliente);
 
 	}
 
-}	
+}
