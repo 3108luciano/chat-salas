@@ -17,13 +17,14 @@ public class ControladorServidor implements Serializable {
 	private ArrayList<Cliente> clientesLobby;
 	private InterfazPeticion peticion;
 	private static ControladorServidor instancia = null;
-	private ArrayList<String>nombreClientes;
-	
-	// singleton  lo uso para tener los mismos arraylist de clientes y salas para todas las instancias de hiloservidor
+	private ArrayList<String> nombreClientes;
+
+	// singleton lo uso para tener los mismos arraylist de clientes y salas para
+	// todas las instancias de hiloservidor
 	private ControladorServidor() {
 		salas = new ArrayList<Sala>();
 		clientesLobby = new ArrayList<Cliente>();
-		nombreClientes= new ArrayList<String>();
+		nombreClientes = new ArrayList<String>();
 		salas.add(new Sala("Lobby"));
 
 	}
@@ -34,7 +35,7 @@ public class ControladorServidor implements Serializable {
 		return instancia;
 	}
 
-	//singleton
+	// singleton
 	public synchronized void manejarMensaje(Mensaje mensaje) {
 		peticion = (InterfazPeticion) mensaje.getCodigo();
 		peticion.tratarPeticion(mensaje);
@@ -58,25 +59,35 @@ public class ControladorServidor implements Serializable {
 			System.out.println("El cliente ya esta en el lobby");
 			return;
 		}
-
-		System.out.println("El cliente: " + cliente.getNick() + " ha entrado al lobby");
+		System.out.println("El cliente " + cliente.getNick() + " ha entrado al lobby");
 		clientesLobby.add(cliente);
 
-		int i = 0;
-		while (!salas.get(i).getNombre().equals("Lobby"))
-			i++;
+		for (Sala s : salas) {
+			if (s.getNombre().equals("Lobby")) {
+				s.meterClienteEnSala(cliente);
+				break;
+			}
+		}
 
-		salas.get(i).meterClienteEnSala(cliente);
+		enviarTodos(cliente);
+		System.out.println("Clientes en lobby; " + clientesLobby.size());
 
-		System.out.println("CLIENTES EN LOBBY");
-		for (Cliente c : clientesLobby)
-			System.out.println(c.getNick());
+	}
 
+	private void enviarTodos(Cliente clienteNuevo) {
+
+		Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARLOBBY,clienteNuevo.getNick());
 		
-		for(Cliente c : clientesLobby)
-			nombreClientes.add(c.getNick());
-			
-		for(Cliente c : clientesLobby)
-			c.getSalida().enviarMensaje(new Mensaje(Comandos.ACTUALIZARLOBBY,nombreClientes));
+		for(Cliente conectado : clientesLobby) {
+			if(!conectado.equals(clienteNuevo)) {
+				conectado.getSalida().enviarMensaje(mensaje);
+			}
+		}
+		
+		for(Cliente conectado : clientesLobby) {
+			clienteNuevo.getSalida().enviarMensaje(new Mensaje(Comandos.ACTUALIZARLOBBY,conectado.getNick()));
+		}
+		
+		System.out.println(" Se envio el nick de :"+clienteNuevo.getNick()+" a todos los usuarios conectados");
 	}
 }

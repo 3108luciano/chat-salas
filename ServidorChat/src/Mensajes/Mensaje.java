@@ -12,7 +12,7 @@ public class Mensaje implements Serializable {
 	private Object datos;
 	private String cadena,cadena2;
 	private int nroSala;
-	private ArrayList<String> vdatos;
+	
 	
 	public Mensaje(Object codigo, String cadena, Object datos) {
 		this.codigo = codigo;
@@ -31,9 +31,10 @@ public class Mensaje implements Serializable {
 	public Mensaje(Object datos) {
 		this.datos=datos;
 	}
-	public Mensaje(Object codigo, ArrayList<String> vdatos) {
+	public Mensaje(Object codigo, String cadena) {
 		this.codigo=codigo;
-		this.vdatos=vdatos;
+		this.cadena=cadena;
+	
 	}
 
 	public Object getCodigo() {

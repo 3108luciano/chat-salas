@@ -109,16 +109,9 @@ public class Gui_Lobby extends JFrame {
 
 	}
 
-	public synchronized void actualizarTablaSalas(String cliente, String nombre) {
-
-		modeloSalas.addElement(nombre);
-		listaSalasDisponibles.setModel(modeloSalas);
-
-	}
-
-	public  synchronized void actualizarTablaClientesLobby(String cliente) {
-		modeloClientes.addElement(cliente);
-		listaClientesConectados.setModel(modeloClientes);
+	public static void agregarCliente(String nick) {
+		modeloClientes.addElement(nick);
+		
 	}
 
 	public synchronized JList<String> getListaClientesConectados() {

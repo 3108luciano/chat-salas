@@ -11,24 +11,18 @@ import Mensajes.Mensaje;
 public class ActualizarLobby implements InterfazPeticion {
 
 	private static final long serialVersionUID = 2958832563874494113L;
-	private ArrayList<Cliente> clientes;
-	private ArrayList<String> nombres;
+	private ArrayList<String> clientes ;
 
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
 
-		clientes = new ArrayList<Cliente>();
-		nombres = new ArrayList<String>();
-		nombres = mensaje.getVdatos();
-		
+		if(clientes==null) {
+			clientes= new ArrayList<String>();
+		}
+		String nickCliente = mensaje.getCadena();
+		clientes.add(nickCliente);
+		Gui_Lobby.agregarCliente(nickCliente);
 
-			for(String n : nombres)
-			clientes.add(new Cliente(n));
-			
-		
-
-		for(int i = 0 ;i<clientes.size();i++)
-			HiloLogin.getGui_lobby().actualizarTablaClientesLobby(clientes.get(i).getNick());
 	}
 
-}
+}	

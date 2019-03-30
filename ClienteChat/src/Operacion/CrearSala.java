@@ -26,12 +26,12 @@ public class CrearSala implements InterfazPeticion {
 
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
-
+/*
 		Sala salaNueva;
 		gui_lobby = HiloLogin.getGui_lobby();
 		backupsalas = HiloLogin.getControlador().getBackupSalas();
 
-		if (mensaje.getCadena2().equals(Cliente.getNick())) {
+		if (mensaje.getCadena2().equals()) {
 		
 
 			Gui_Sala gui_sala = new Gui_Sala();
@@ -57,7 +57,7 @@ public class CrearSala implements InterfazPeticion {
 					+ " ha sido creada exitosamente");
 
 		}
-
+*/
 	}
 
 }
