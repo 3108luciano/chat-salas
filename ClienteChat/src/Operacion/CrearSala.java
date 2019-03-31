@@ -6,7 +6,6 @@ import javax.swing.DefaultListModel;
 
 import Cliente.Cliente;
 import Cliente.ControladorCliente;
-import Cliente.HiloLogin;
 import Cliente.HiloOutputSala;
 import Gui.Gui_Lobby;
 import Gui.Gui_Sala;
@@ -28,8 +27,8 @@ public class CrearSala implements InterfazPeticion {
 	public void tratarPeticion(Mensaje mensaje) {
 
 		Sala salaNueva;
-		gui_lobby = HiloLogin.getGui_lobby();
-		backupsalas = HiloLogin.getControlador().getBackupSalas();
+		gui_lobby = ControladorCliente.getGuiLobby();
+		backupsalas = ControladorCliente.getBackupSalas();
 
 		if (mensaje.getCadena2().equals(Cliente.getNick())) {
 
@@ -57,7 +56,7 @@ public class CrearSala implements InterfazPeticion {
 		}
 		salaNueva.meterClienteEnSala(mensaje.getCadena2());
 		backupsalas.add(salaNueva);
-		HiloLogin.getGui_lobby().agregarSala(mensaje.getCadena());
+		ControladorCliente.getGuiLobby().agregarSala(mensaje.getCadena());
 		
 		ControladorCliente.setBackupSalas(backupsalas);
 

@@ -2,7 +2,7 @@ package Operacion;
 
 import java.util.ArrayList;
 
-import Cliente.HiloLogin;
+import Cliente.ControladorCliente;
 import Mensajes.Mensaje;
 import Sala.Sala;
 
@@ -17,7 +17,7 @@ public class ActualizarSalasLobby implements InterfazPeticion {
 		
 		
 		for(int i =1;i<salas.size();i++)
-		HiloLogin.getGui_lobby().agregarSala(salas.get(i).getNombre());
+		ControladorCliente.getGuiLobby().agregarSala(salas.get(i).getNombre());
 	}
 
 }

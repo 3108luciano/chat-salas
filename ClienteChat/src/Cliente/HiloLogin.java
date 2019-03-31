@@ -25,10 +25,10 @@ public class HiloLogin implements Runnable {
 	private FlujoDeEntrada entrada;
 	private FlujoDeSalida salida;
 	private Cliente cliente;
-	private static Gui_Lobby gui_lobby;
-	private static ControladorCliente controlador;
-	private ArrayList<Sala>salas;
-	
+	private Gui_Lobby gui_lobby;
+	private ControladorCliente controlador;
+	private ArrayList<Sala> salas;
+
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
 		this.panel = panel;
@@ -58,25 +58,27 @@ public class HiloLogin implements Runnable {
 					resultado = (Mensaje) entrada.recibirMensaje();
 
 					persona = (Persona) resultado.getDatos();
+					corriendo = false;
 
 					if (resultado != null) {
 
 						cliente = new Cliente(persona.getNick());
 						System.out.println("el usuario: " + persona.getNick() + " ha iniciado sesion.");
 						panel.setVisible(false);
-						
-					
-						gui_lobby = new Gui_Lobby(salida, persona,Gui_Lobby.getModeloSalas(),Gui_Lobby.getModeloClientes());
+
+						gui_lobby = new Gui_Lobby(salida, persona, Gui_Lobby.getModeloSalas(),
+								Gui_Lobby.getModeloClientes());
 						controlador = new ControladorCliente(gui_lobby, entrada);
-						salas=controlador.getBackupSalas();
-						
-						
-						if (salas.size()==0) {
+						salas = ControladorCliente.getBackupSalas();
+
+						if (salas.isEmpty()) {
+							System.out.println("Se creo un lobby");
 							Sala lobby = new Sala(0, "Lobby");
 							lobby.meterClienteEnSala(persona.getNick());
-							controlador.getBackupSalas().add(lobby);
-							
+							ControladorCliente.agregarSala(lobby);
+
 						} else {
+							System.out.println("Entre al lobby");
 							controlador.getBackupSalas().get(0).meterClienteEnSala(persona.getNick());
 						}
 
@@ -84,7 +86,7 @@ public class HiloLogin implements Runnable {
 						hiloe.start();
 
 					} else {
-						corriendo = false;
+						corriendo = true;
 						panel.setFlagBotonLogin(true);
 						JOptionPane.showMessageDialog(null,
 								"el usuario o contraseña ingresado es erroneo. vuelva a ingresarlo correctamente",
@@ -101,12 +103,6 @@ public class HiloLogin implements Runnable {
 
 	}
 
-	public static synchronized Gui_Lobby getGui_lobby() {
-		return gui_lobby;
-	}
-
-	public static ControladorCliente getControlador() {
-		return controlador;
-	}
+	
 
 }

@@ -125,6 +125,7 @@ public class Gui_Lobby extends JFrame {
 	}
 
 	public static void agregarSala(String nombreSala) {
+		if(!modeloSalas.contains(nombreSala))
 		modeloSalas.addElement(nombreSala);
 	}
 

@@ -21,7 +21,7 @@ public class UnirseSala implements InterfazPeticion {
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
 
-		backupSalas = HiloLogin.getControlador().getBackupSalas();
+		backupSalas = ControladorCliente.getBackupSalas();
 
 		for (Sala s : backupSalas) {
 			if (s.getNroSala() == mensaje.getNroSala()) {
