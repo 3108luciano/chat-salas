@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Cliente.Cliente;
+import Operacion.ActualizarSalasLobby;
+import Sala.Sala;
 
 public class Mensaje implements Serializable {
 
@@ -12,6 +14,7 @@ public class Mensaje implements Serializable {
 	private Object datos;
 	private String cadena,cadena2;
 	private int nroSala;
+	private ArrayList<Sala> salas;
 	
 	
 	public Mensaje(Object codigo, String cadena, Object datos) {
@@ -37,6 +40,11 @@ public class Mensaje implements Serializable {
 	
 	}
 
+	public Mensaje(Object codigo, ArrayList<Sala> salas) {
+		this.codigo=codigo;
+		this.salas = salas;
+	}
+
 	public Object getCodigo() {
 		return codigo;
 	}
@@ -51,6 +59,10 @@ public class Mensaje implements Serializable {
 
 	public int getNroSala() {
 		return nroSala;
+	}
+
+	public ArrayList<Sala> getSalas() {
+		return salas;
 	}
 	
 

@@ -45,12 +45,16 @@ public class ControladorServidor implements Serializable {
 		return salas;
 	}
 
-	public void setSalas(ArrayList<Sala> salas) {
-		this.salas = salas;
-	}
+	
 
 	public synchronized ArrayList<Cliente> getClientesLobby() {
 		return clientesLobby;
+	}
+
+	
+	
+	public synchronized void setSalas(ArrayList<Sala> salas) {
+		this.salas = salas;
 	}
 
 	public synchronized void meterEnLobby(Cliente cliente) {
@@ -76,7 +80,7 @@ public class ControladorServidor implements Serializable {
 
 	private void enviarTodos(Cliente clienteNuevo) {
 
-		Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARLOBBY,clienteNuevo.getNick());
+		Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARCLIENTESLOBBY,clienteNuevo.getNick());
 		
 		for(Cliente conectado : clientesLobby) {
 			if(!conectado.equals(clienteNuevo)) {
@@ -85,7 +89,7 @@ public class ControladorServidor implements Serializable {
 		}
 		
 		for(Cliente conectado : clientesLobby) {
-			clienteNuevo.getSalida().enviarMensaje(new Mensaje(Comandos.ACTUALIZARLOBBY,conectado.getNick()));
+			clienteNuevo.getSalida().enviarMensaje(new Mensaje(Comandos.ACTUALIZARCLIENTESLOBBY,conectado.getNick()));
 		}
 		
 		System.out.println(" Se envio el nick de :"+clienteNuevo.getNick()+" a todos los usuarios conectados");

@@ -36,6 +36,7 @@ public class HiloLogin implements Runnable {
 		try {
 			salida = new FlujoDeSalida(this.socket);
 			entrada = new FlujoDeEntrada(this.socket);
+			salas = new ArrayList<Sala>();
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -63,10 +64,12 @@ public class HiloLogin implements Runnable {
 						cliente = new Cliente(persona.getNick());
 						System.out.println("el usuario: " + persona.getNick() + " ha iniciado sesion.");
 						panel.setVisible(false);
-
-						gui_lobby = new Gui_Lobby(salida, persona);
+						
+					
+						gui_lobby = new Gui_Lobby(salida, persona,Gui_Lobby.getModeloSalas(),Gui_Lobby.getModeloClientes());
 						controlador = new ControladorCliente(gui_lobby, entrada);
 						salas=controlador.getBackupSalas();
+						
 						
 						if (salas.size()==0) {
 							Sala lobby = new Sala(0, "Lobby");

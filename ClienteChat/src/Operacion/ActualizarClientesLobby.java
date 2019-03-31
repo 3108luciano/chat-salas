@@ -8,7 +8,7 @@ import Cliente.HiloLogin;
 import Gui.Gui_Lobby;
 import Mensajes.Mensaje;
 
-public class ActualizarLobby implements InterfazPeticion {
+public class ActualizarClientesLobby implements InterfazPeticion {
 
 	private static final long serialVersionUID = 2958832563874494113L;
 	private ArrayList<String> clientes;
@@ -21,8 +21,8 @@ public class ActualizarLobby implements InterfazPeticion {
 		}
 		String nickCliente = mensaje.getCadena();
 		clientes.add(nickCliente);
-		ControladorCliente.agregarClienteLobby(nickCliente);
-		ControladorCliente.getBackupSalas().get(0).meterClienteEnSala(nickCliente);
+		//ControladorCliente.agregarClienteLobby(nickCliente);
+		//ControladorCliente.getBackupSalas().get(0).meterClienteEnSala(nickCliente);
 		Gui_Lobby.agregarCliente(nickCliente);
 
 	}

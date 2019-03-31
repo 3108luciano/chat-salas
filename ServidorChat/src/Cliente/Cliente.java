@@ -50,7 +50,7 @@ public class Cliente extends JFrame implements Serializable {
 		return entrada;
 	}
 
-	public  synchronized String getNick() {
+	public  synchronized   String getNick() {
 		return nick;
 	}
 

@@ -22,6 +22,7 @@ import Cliente.Persona;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
 import Operacion.CrearSala;
+import Sala.Sala;
 import Stream.FlujoDeSalida;
 
 import javax.swing.DefaultListModel;
@@ -30,6 +31,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -37,15 +39,16 @@ import javax.swing.JLabel;
 public class Gui_Lobby extends JFrame {
 
 	private JPanel contentPane;
-	private DefaultListModel<String> modeloSalas;
+	private static DefaultListModel<String> modeloSalas;
 	private static DefaultListModel<String> modeloClientes;
 	private JScrollPane scroll, scrollclientes;
 	private JButton botonCrear, botonUnirse;
 	private ControladorCliente controlador;
-	private  JList<String> listaClientesConectados;
+	private JList<String> listaClientesConectados;
 	private JList<String> listaSalasDisponibles;
 
-	public Gui_Lobby(FlujoDeSalida salida, Persona persona) {
+	public Gui_Lobby(FlujoDeSalida salida, Persona persona, DefaultListModel<String> modeloSalas,
+			DefaultListModel<String> modeloClientes) {
 
 		setTitle("Salas");
 
@@ -56,15 +59,22 @@ public class Gui_Lobby extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 
-		modeloClientes = new DefaultListModel<String>();
-		listaClientesConectados = new JList<>(modeloClientes);
+		if (this.modeloClientes == null && this.modeloSalas == null) {
+
+			this.modeloClientes = new DefaultListModel<String>();
+			this.modeloSalas = new DefaultListModel<String>();
+		} else {
+			this.modeloClientes = modeloClientes;
+			this.modeloSalas = modeloSalas;
+		}
+
+		listaClientesConectados = new JList<>(this.modeloClientes);
 
 		scrollclientes = new JScrollPane(listaClientesConectados);
 		scrollclientes.setBounds(278, 45, 146, 187);
 		contentPane.add(scrollclientes);
 
-		modeloSalas = new DefaultListModel<String>();
-		listaSalasDisponibles = new JList<>(modeloSalas);
+		listaSalasDisponibles = new JList<>(this.modeloSalas);
 		listaSalasDisponibles.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		scroll = new JScrollPane(listaSalasDisponibles);
@@ -94,8 +104,8 @@ public class Gui_Lobby extends JFrame {
 				if (e.getClickCount() == 2) {
 
 					int nroSala = listaSalasDisponibles.getSelectedIndex();
-					
-					salida.enviarMensaje(new Mensaje(Comandos.UNIRSESALA,nroSala,persona));
+
+					salida.enviarMensaje(new Mensaje(Comandos.UNIRSESALA, nroSala, persona));
 
 				}
 			}
@@ -111,10 +121,27 @@ public class Gui_Lobby extends JFrame {
 
 	public static void agregarCliente(String nick) {
 		modeloClientes.addElement(nick);
-		
+
+	}
+
+	public static void agregarSala(String nombreSala) {
+		modeloSalas.addElement(nombreSala);
 	}
 
 	public synchronized JList<String> getListaClientesConectados() {
 		return listaClientesConectados;
 	}
+
+	public synchronized static DefaultListModel<String> getModeloSalas() {
+		return modeloSalas;
+	}
+
+	public static void setModeloSalas(DefaultListModel<String> modeloSalas) {
+		Gui_Lobby.modeloSalas = modeloSalas;
+	}
+
+	public static DefaultListModel<String> getModeloClientes() {
+		return modeloClientes;
+	}
+
 }

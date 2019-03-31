@@ -22,8 +22,8 @@ public class UnirseSala implements InterfazPeticion {
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
 
-		salas = HiloServidor.getControlador().getSalas();
-		clientes = HiloServidor.getControlador().getClientesLobby();
+		salas = ControladorServidor.getInstancia().getSalas();
+		clientes = ControladorServidor.getInstancia().getClientesLobby();
 
 		Persona persona = (Persona) mensaje.getDatos();
 

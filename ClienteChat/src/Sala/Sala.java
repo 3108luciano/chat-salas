@@ -1,13 +1,15 @@
 package Sala;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Cliente.Cliente;
 import Cliente.HiloOutputSala;
 import Gui.Gui_Sala;
 
-public class Sala {
+public class Sala implements Serializable {
 
+	private static final long serialVersionUID = 5838832563874494113L;
 	private String nombre;
 	private int nroSala;
 	private ArrayList<String> Clientes;

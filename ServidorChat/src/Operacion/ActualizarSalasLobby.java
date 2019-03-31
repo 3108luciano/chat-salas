@@ -2,12 +2,13 @@ package Operacion;
 
 import Mensajes.Mensaje;
 
-public class ActualizarLobby implements InterfazPeticion {
+public class ActualizarSalasLobby implements InterfazPeticion {
 
-	private static final long serialVersionUID = 2958832563874494113L;
+	private static final long serialVersionUID = 5938832563874494113L;
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

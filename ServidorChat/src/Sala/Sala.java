@@ -1,5 +1,6 @@
 package Sala;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -7,8 +8,9 @@ import Cliente.Cliente;
 import Mensajes.Mensaje;
 import Servidor.HiloServidor;
 
-public class Sala {
-
+public class Sala implements Serializable {
+	
+	private static final long serialVersionUID = 5838832563874494113L;
 	private  static ArrayList<Cliente> clientesEnSala;
 	private String nombre;
 	private int nroSala;

@@ -30,9 +30,7 @@ public class HiloServidor implements Runnable {
 	private List<Object[]> lista_de_cosas;
 	private Persona persona;
 	private Mensaje mensaje;
-	private boolean corriendo = true;
-	private boolean resultado;
-	private static ControladorServidor controlador;
+	private ControladorServidor controlador;
 	private ArrayList<Sala> salas;
 
 	public HiloServidor(Socket socket) {
@@ -68,19 +66,19 @@ public class HiloServidor implements Runnable {
 
 	@Override
 	public void run() {
-
+		boolean validacionUsuario = false;
 		Cliente clientenuevo = null;
 
-		while (corriendo) {
-			corriendo=false;
-			
+		do {
+
 			try {
 				mensaje = entrada.recibirMensaje();
 				persona = (Persona) mensaje.getDatos();
 
 				if (Consulta.verificarEmail(persona.getEmail()) == true) {
 
-					if (resultado = validarUsuario(persona) == true) {
+					validacionUsuario = validarUsuario(persona);
+					if (validacionUsuario) {
 
 						persona.setNick(lista_de_cosas.get(0)[2].toString());
 						salida.enviarMensaje(new Mensaje(persona));
@@ -91,22 +89,22 @@ public class HiloServidor implements Runnable {
 						controlador.meterEnLobby(clientenuevo);
 						salas = controlador.getSalas();
 
+						if (salas.size() > 1) {
+							salida.enviarMensaje(new Mensaje(Comandos.ACTUALIZARSALASLOBBY, salas));
+						}
+
 					} else
 						salida.enviarMensaje(null);
 
 				}
 			} catch (ClassNotFoundException | IOException e) {
-				corriendo = false;
+
 				e.printStackTrace();
 
 			}
 
-		}
+		} while (validacionUsuario == false);
 
-	}
-
-	public static ControladorServidor getControlador() {
-		return controlador;
 	}
 
 }

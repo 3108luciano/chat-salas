@@ -80,7 +80,6 @@ public class Gui_Sala extends JFrame {
 
 	public synchronized void actualizarListClientes(String cliente) {
 		this.modeloClientes.addElement(cliente);
-		this.listaClientes.setModel(modeloClientes);
 	}
 
 	public void setNombreSala(String nombreSala) {

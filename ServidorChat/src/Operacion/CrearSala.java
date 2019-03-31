@@ -15,7 +15,6 @@ public class CrearSala implements InterfazPeticion {
 	private static final long serialVersionUID = 2938832563874494113L;
 	private ArrayList<Sala> salas;
 	private ArrayList<Cliente> clienteslobby;
-	
 
 	public CrearSala() {
 
@@ -24,26 +23,33 @@ public class CrearSala implements InterfazPeticion {
 	@Override
 	public void tratarPeticion(Mensaje mensaje) {
 
-		this.salas = HiloServidor.getControlador().getSalas();
-		this.clienteslobby = HiloServidor.getControlador().getClientesLobby();
-		
+		this.salas = ControladorServidor.getInstancia().getSalas();
+		this.clienteslobby = ControladorServidor.getInstancia().getClientesLobby();
+
 		Persona persona = (Persona) mensaje.getDatos();
+
 		Cliente cliente = buscarClienteCreador(persona.getNick());
 
-		
-		
 		Sala sala = new Sala(mensaje.getCadena(), true);
 
 		sala.meterClienteEnSala(cliente);
 		salas.add(sala);
-		
-	
 
-		this.clienteslobby = HiloServidor.getControlador().getClientesLobby();
-		for (Cliente c : clienteslobby ) {
-			c.getSalida().enviarMensaje(new Mensaje(Comandos.CREARSALA,sala.getNroSala(), sala.getNombre(), persona.getNick()));
-			System.out.println("N° SALA : "+sala.getNroSala()+" NOMBRE: "+sala.getNombre()+" ha sido creada exitosamente");
+		this.clienteslobby = ControladorServidor.getInstancia().getClientesLobby();
+		ControladorServidor.getInstancia().setSalas(salas);
+		
+		for (Cliente c : clienteslobby) {
+			c.getSalida().enviarMensaje(new Mensaje(Comandos.CREARSALA, sala.getNroSala(), sala.getNombre(), persona.getNick()));
+			System.out.println("N° SALA : " + sala.getNroSala() + " NOMBRE: " + sala.getNombre() + " ha sido creada exitosamente");
 		}
+		
+		ArrayList<Sala>backupsalas = new ArrayList<Sala>();
+		backupsalas.add(sala);
+		for(Cliente c : clienteslobby) {
+			if(!c.equals(persona.getNick()))
+			c.getSalida().enviarMensaje(new Mensaje(Comandos.ACTUALIZARSALASLOBBY,backupsalas));
+		}
+
 	}
 
 	private Cliente buscarClienteCreador(String nombre) {

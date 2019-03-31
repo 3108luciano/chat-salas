@@ -14,7 +14,7 @@ public class ControladorCliente implements Serializable, Runnable {
 
 	private static ArrayList<Sala> backupSalas;
 	private static ArrayList<String> backupClientesLobby;
-	private Gui_Lobby guiLobby;
+	private  static Gui_Lobby guiLobby;
 	private FlujoDeEntrada entrada;
 	private boolean corriendo = true;
 	private InterfazPeticion peticion;
@@ -40,9 +40,18 @@ public class ControladorCliente implements Serializable, Runnable {
 			ControladorCliente.backupClientesLobby.add(cliente);
 	}
 
+	public static synchronized void setBackupSalas(ArrayList<Sala> backupSalas) {
+		ControladorCliente.backupSalas = backupSalas;
+	}
+
 	public synchronized void manejarMensaje(Mensaje mensaje) {
 		peticion = (InterfazPeticion) mensaje.getCodigo();
 		peticion.tratarPeticion(mensaje);
+	}
+	public void ActualizarSalasGuiLobby(ArrayList<Sala> salas) {
+		for(Sala s : salas)
+		HiloLogin.getGui_lobby().agregarSala(s.getNombre());
+		
 	}
 
 	@Override
