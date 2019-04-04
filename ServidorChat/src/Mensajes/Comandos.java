@@ -3,6 +3,7 @@ package Mensajes;
 import Operacion.ActualizarClientesLobby;
 import Operacion.ActualizarSalasLobby;
 import Operacion.CrearSala;
+import Operacion.EnviarMensajeSala;
 import Operacion.UnirseSala;
 import Servidor.ControladorServidor;
 
@@ -16,5 +17,5 @@ public class Comandos {
 	public static final UnirseSala UNIRSESALA = new UnirseSala();
 	public static final ActualizarClientesLobby ACTUALIZARCLIENTESLOBBY = new ActualizarClientesLobby();
 	public static final ActualizarSalasLobby ACTUALIZARSALASLOBBY  = new ActualizarSalasLobby();
-	
+	public static final EnviarMensajeSala MENSAJESALA = new EnviarMensajeSala();
 }

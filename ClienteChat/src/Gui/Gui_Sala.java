@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 
 import Sala.Sala;
 
+import javax.sql.rowset.spi.SyncResolver;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -32,7 +33,8 @@ public class Gui_Sala extends JFrame {
 	private int nroSala;
 	private DefaultListModel<String> modeloClientes;
 	private Sala sala;
-
+	private boolean enviado;
+	
 	public Gui_Sala() {
 
 		setTitle("Sala");
@@ -44,8 +46,10 @@ public class Gui_Sala extends JFrame {
 		setContentPane(contentPane);
 
 		botonEnviar = new JButton("Enviar");
+		
 		botonEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				enviado=true;
 			}
 		});
 		botonEnviar.setBounds(277, 212, 89, 23);
@@ -95,4 +99,31 @@ public class Gui_Sala extends JFrame {
 		this.sala = sala;
 	}
 
+	public  synchronized JTextField getTextMensaje() {
+		return textMensaje;
+	}
+
+	public synchronized JButton getBotonEnviar() {
+		return botonEnviar;
+	}
+
+	public synchronized boolean isEnviado() {
+		return enviado;
+	}
+
+	public synchronized void setEnviado(boolean enviado) {
+		this.enviado = enviado;
+	}
+
+	public synchronized void setTextMensaje(String textMensaje) {
+		this.textMensaje.setText(textMensaje);
+	}
+
+	
+
+	
+
+	
+
+	
 }

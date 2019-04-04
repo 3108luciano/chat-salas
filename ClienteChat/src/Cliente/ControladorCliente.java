@@ -10,20 +10,23 @@ import Mensajes.Mensaje;
 import Operacion.InterfazPeticion;
 import Sala.Sala;
 import Stream.FlujoDeEntrada;
+import Stream.FlujoDeSalida;
 
 public class ControladorCliente implements Serializable, Runnable {
 
 	private static ArrayList<Sala> backupSalas = new ArrayList<Sala>();
 	private static ArrayList<String> backupClientesLobby = new ArrayList<String>();
 	private static Gui_Lobby guiLobby;
-	private FlujoDeEntrada entrada;
+	private static FlujoDeEntrada entrada;
+	private static FlujoDeSalida salida;
 	private boolean corriendo = true;
 	private InterfazPeticion peticion;
 
-	public ControladorCliente(Gui_Lobby guiLobby, FlujoDeEntrada entrada) {
+	public ControladorCliente(Gui_Lobby guiLobby, FlujoDeEntrada entrada,FlujoDeSalida salida) {
 
 		this.guiLobby = guiLobby;
 		this.entrada = entrada;
+		this.salida = salida;
 
 	}
 
@@ -53,6 +56,16 @@ public class ControladorCliente implements Serializable, Runnable {
 
 	public synchronized static Gui_Lobby getGuiLobby() {
 		return guiLobby;
+	}
+	
+	
+
+	public synchronized static FlujoDeEntrada getEntrada() {
+		return entrada;
+	}
+
+	public synchronized static FlujoDeSalida getSalida() {
+		return salida;
 	}
 
 	@Override
