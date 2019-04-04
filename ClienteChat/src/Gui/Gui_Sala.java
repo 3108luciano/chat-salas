@@ -119,6 +119,14 @@ public class Gui_Sala extends JFrame {
 		this.textMensaje.setText(textMensaje);
 	}
 
+	public  synchronized JTextArea getConversacion() {
+		return conversacion;
+	}
+
+	public synchronized void setConversacion(JTextArea conversacion) {
+		this.conversacion = conversacion;
+	}
+
 	
 
 	

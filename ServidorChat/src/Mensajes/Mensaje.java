@@ -51,7 +51,7 @@ public class Mensaje implements Serializable {
 
 	public Mensaje(Object codigo, Sala sala) {
 		this.codigo = codigo;
-		this.sala=sala;
+		this.sala = sala;
 	}
 
 	public Object getCodigo() {
@@ -76,6 +76,10 @@ public class Mensaje implements Serializable {
 
 	public synchronized ArrayList<String> getNicks() {
 		return nicks;
+	}
+
+	public String getCadena2() {
+		return cadena2;
 	}
 
 }

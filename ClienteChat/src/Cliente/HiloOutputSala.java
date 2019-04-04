@@ -30,6 +30,7 @@ public class HiloOutputSala implements Runnable {
 				texto = gui_sala.getTextMensaje().getText();
 				salida.enviarMensaje(new Mensaje(Comandos.MENSAJESALA,salaNueva.getNroSala(),texto,Cliente.getNick()));
 				gui_sala.setTextMensaje("");
+				gui_sala.setEnviado(false);
 			}
 			
 			
