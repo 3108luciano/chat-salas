@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import Gui.Gui_Lobby;
 import Gui.Gui_Login;
+import Gui.Gui_Registro;
 import Mensajes.Comandos;
 import Mensajes.Mensaje;
 import Sala.Sala;
@@ -28,7 +29,9 @@ public class HiloLogin implements Runnable {
 	private Gui_Lobby gui_lobby;
 	private ControladorCliente controlador;
 	private ArrayList<Sala> salas;
-
+	private  static Gui_Registro panel_registro;
+	
+	
 	public HiloLogin(Socket socket, Gui_Login panel) {
 		this.socket = socket;
 		this.panel = panel;
@@ -86,9 +89,40 @@ public class HiloLogin implements Runnable {
 				}
 
 			}
+			
+			if(panel_registro.isEstadoRegistro()) {
+				salida.enviarMensaje(new Mensaje(Comandos.REGISTRO,panel.getPersona()));
+				panel_registro.setEstadoRegistro(false);
+				
+				try {
+					resultado = (Mensaje) entrada.recibirMensaje();
+					
+					if(resultado!=null) {
+						Gui_Login login= new Gui_Login();
+						panel_registro.setVisible(false);
+						panel_registro.dispose();
+					}
+				} catch (ClassNotFoundException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
 
 		}
 
 	}
+
+	public synchronized static Gui_Registro getPanel_registro() {
+		return panel_registro;
+	}
+
+	public synchronized static void setPanel_registro(Gui_Registro panel_registro) {
+		HiloLogin.panel_registro = panel_registro;
+	}
+
+	
+	
+	
 
 }

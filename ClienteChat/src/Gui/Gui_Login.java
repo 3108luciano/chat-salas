@@ -30,6 +30,9 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Gui_Login extends JFrame implements Serializable {
 
@@ -41,11 +44,12 @@ public class Gui_Login extends JFrame implements Serializable {
 	private ObjectOutputStream salida;
 	private Persona persona;
 	private boolean flagBotonLogin;
+	private JLabel abrirRegistro;
 
 	public static void main(String[] args) {
 
 		System.setProperty("sun.io.serialization.extendedDebugInfo", "true");
-		//toma el aspecto del sistema
+		// toma el aspecto del sistema
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
@@ -53,8 +57,7 @@ public class Gui_Login extends JFrame implements Serializable {
 
 			e.printStackTrace();
 		}
-		
-	
+
 		Gui_Login panelLoguin = new Gui_Login();
 		panelLoguin.setVisible(true);
 		crearHiloReconexion(panelLoguin);
@@ -72,7 +75,7 @@ public class Gui_Login extends JFrame implements Serializable {
 
 		this.setTitle("Login");
 
-		setLayout(null);
+		getContentPane().setLayout(null);
 
 		flagBotonLogin = new Boolean(false);
 
@@ -112,11 +115,26 @@ public class Gui_Login extends JFrame implements Serializable {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		add(label1);
-		add(label2);
-		add(textfieldEmail);
-		add(textfieldContraseña);
-		add(boton1);
+		getContentPane().add(label1);
+		getContentPane().add(label2);
+		getContentPane().add(textfieldEmail);
+		getContentPane().add(textfieldContraseña);
+		getContentPane().add(boton1);
+
+		abrirRegistro = new JLabel("Registrarse");
+		abrirRegistro.setBounds(350, 132, 70, 25);
+		abrirRegistro.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					Gui_Registro registro = new Gui_Registro();
+					setVisible(false);
+					dispose();
+				}
+			}
+		});
+		getContentPane().add(abrirRegistro);
 
 	}
 
@@ -151,5 +169,4 @@ public class Gui_Login extends JFrame implements Serializable {
 	public void setFlagBotonLogin(boolean flagBotonLogin) {
 		this.flagBotonLogin = flagBotonLogin;
 	}
-
 }

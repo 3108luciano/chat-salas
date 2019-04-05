@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Cliente.Cliente;
+import Cliente.HiloLogin;
 import Cliente.Persona;
 
 import javax.swing.JLabel;
@@ -20,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 public class Gui_Registro extends JFrame {
 
 	private JPanel contentPane;
@@ -29,7 +31,7 @@ public class Gui_Registro extends JFrame {
 	private JLabel lblNewLabel, lblNewLabel_1, lblNewLabel_2, lblNewLabel_3;
 	private JButton registrarse;
 	private Persona persona;
-	private List<Object[]> lista_de_cosas;
+	private boolean estadoRegistro;
 
 	public Gui_Registro() {
 
@@ -75,56 +77,32 @@ public class Gui_Registro extends JFrame {
 		registrarse = new JButton("Registrarse");
 		registrarse.setBounds(301, 207, 105, 30);
 		contentPane.add(registrarse);
-
 		
-
-		/*registrarse.addActionListener(new ActionListener() {
+		HiloLogin.setPanel_registro(this);
+		registrarse.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
 				persona = new Persona(textField.getText().trim(), textField_1.getText().trim(),
 						textField_2.getText().trim());
-
-				String consulta = "select p.email,p.nick from Persona p ";
-				consulta += "where p.email=" + "'" + persona.getEmail() + "'" + "and p.nick=" + "'" + persona.getNick()
-						+ "'";
-
-			//	lista_de_cosas = Consulta.consultar(consulta);
-
-				if (verificarEmail(persona.getEmail()) == true) {
-
-					if (persona.getEmail().equals("") || persona.getContraseña().equals("")
-							|| persona.getNick().equals(""))
-						JOptionPane.showMessageDialog(null, "llene todo los campos", "campos vacios",
-								JOptionPane.WARNING_MESSAGE);
-					if (lista_de_cosas.size() != 0) {
-						JOptionPane.showMessageDialog(null, "usuario ya existente", "usuario existente",
-									JOptionPane.ERROR_MESSAGE);
-					} else {
-						if (Consulta.insertar(persona) == true) {
-							//Login login = new Login();
-							setVisible(false);
-						} else
-							JOptionPane.showMessageDialog(null, "este email ya se ha registrado",
-									"usuario ya registrado", JOptionPane.ERROR_MESSAGE);
-
-					}
-				} else
-					JOptionPane.showMessageDialog(null, "el email ingresado no es valido. ingrese su email nuevamente",
-							"email erroneo", JOptionPane.ERROR_MESSAGE);
-
+				estadoRegistro = true;
 			}
 		});
-*/
-		setVisible(true);
+
+	}
+
+	public  synchronized boolean isEstadoRegistro() {
+		return estadoRegistro;
+	}
+
+	public synchronized void setEstadoRegistro(boolean estadoRegistro) {
+		this.estadoRegistro = estadoRegistro;
+	}
+
+	public synchronized Persona getPersona() {
+		return persona;
 	}
 
 	
-
-	public static void main(String[] args) {
-
-		Gui_Registro frame = new Gui_Registro();
-
-	}
 }
