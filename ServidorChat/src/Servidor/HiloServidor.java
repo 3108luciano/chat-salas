@@ -49,21 +49,6 @@ public class HiloServidor implements Runnable {
 
 	}
 
-	public boolean validarUsuario(Persona persona) {
-
-		String consulta = "select p.email,p.contraseña,p.nick from Persona p ";
-		consulta += "where p.email=" + "'" + persona.getEmail() + "'" + " and p.contraseña=" + "'"
-				+ persona.getContraseña() + "'";
-
-		lista_de_cosas = Consulta.consultar(consulta);
-
-		if (lista_de_cosas.isEmpty()) {
-			return false;
-		}
-
-		return true;
-	}
-
 	@Override
 	public void run() {
 		boolean validacionUsuario = false;
@@ -73,33 +58,19 @@ public class HiloServidor implements Runnable {
 
 			try {
 				mensaje = entrada.recibirMensaje();
+				controlador.manejarMensaje(new Mensaje(mensaje.getCodigo(), mensaje.getDatos(), entrada, salida));
 				persona = (Persona) mensaje.getDatos();
 
-				if (Consulta.verificarEmail(persona.getEmail()) == true) {
+				salas = controlador.getSalas();
 
-					validacionUsuario = validarUsuario(persona);
-					if (validacionUsuario) {
-
-						persona.setNick(lista_de_cosas.get(0)[2].toString());
-						salida.enviarMensaje(new Mensaje(persona));
-
-						clientenuevo = new Cliente(persona.getNick(), entrada, salida);
-
-						clientenuevo.iniciarEscuchar();
-						clientenuevo.iniciarRespuesta();
-						controlador.meterEnLobby(clientenuevo);
-						salas = controlador.getSalas();
-
-						if (salas.size() > 0) {
-							for (Sala s : salas)
-								clientenuevo.getSalida().enviarMensaje(new Mensaje(Comandos.ACTUALIZARSALASLOBBY,
-										s.getNroSala(), s.getNombre(), s.getClientes()));
-						}
-					}
-
-					else
-						salida.enviarMensaje(null);
+				if (salas.size() > 0) {
+					for (Sala s : salas)
+						clientenuevo.getSalida().enviarMensaje(new Mensaje(Comandos.ACTUALIZARSALASLOBBY,
+								s.getNroSala(), s.getNombre(), s.getClientes()));
 				}
+
+				else
+					salida.enviarMensaje(null);
 
 			} catch (ClassNotFoundException | IOException e) {
 

@@ -7,6 +7,8 @@ import Cliente.Cliente;
 import Operacion.ActualizarSalasLobby;
 import Operacion.UnirseSala;
 import Sala.Sala;
+import Stream.FlujoDeEntrada;
+import Stream.FlujoDeSalida;
 
 public class Mensaje implements Serializable {
 
@@ -18,11 +20,20 @@ public class Mensaje implements Serializable {
 	private ArrayList<Sala> salas;
 	private ArrayList<String> nicks;
 	private Sala sala;
+	private FlujoDeEntrada entrada;
+	private FlujoDeSalida salida;
 
 	public Mensaje(Object codigo, String cadena, Object datos) {
 		this.codigo = codigo;
 		this.cadena = cadena;
 		this.datos = datos;
+	}
+
+	public Mensaje(Object codigo, Object datos, FlujoDeEntrada entrada, FlujoDeSalida salida) {
+		this.codigo = codigo;
+		this.datos = datos;
+		this.entrada = entrada;
+		this.salida = salida;
 	}
 
 	public Mensaje(Object codigo, int nroSala, String cadena, String cadena2) {
@@ -82,4 +93,12 @@ public class Mensaje implements Serializable {
 		return cadena2;
 	}
 
+	public FlujoDeEntrada getEntrada() {
+		return entrada;
+	}
+
+	public FlujoDeSalida getSalida() {
+		return salida;
+	}
+	
 }
